@@ -225,6 +225,25 @@
                 font-size: 28px;
             }
         }
+        .backup{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin:12px 0 16px;
+}
+.importLabel{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 10px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  cursor:pointer;
+}
+.importLabel input{ display:none; }
+.status{ font-size:12px; opacity:.8; }
+
     </style>
 </head>
 <body>
@@ -232,6 +251,19 @@
         <div class="header">
             <h1>🏍️ オイル交換ログ</h1>
             <p>バイクのメンテナンス記録を管理</p>
+            <div class="backup">
+  <button id="exportBtn" type="button">Export (JSON)</button>
+
+  <label class="importLabel">
+    Import (JSON)
+    <input id="importFile" type="file" accept="application/json" />
+  </label>
+
+  <button id="importReplaceBtn" type="button" disabled>Import: Replace</button>
+  <button id="importAppendBtn" type="button" disabled>Import: Append</button>
+
+  <span id="importStatus" class="status"></span>
+</div>
         </div>
 
         <div class="card next-change">
@@ -569,6 +601,152 @@
         displayHistory();
         updateNextChange();
         renderChart();
+        // ===== Export / Import (JSON) =====
+// ===== Export / Import (JSON) =====
+const exportBtn = document.getElementById('exportBtn');
+const importFile = document.getElementById('importFile');
+const importReplaceBtn = document.getElementById('importReplaceBtn');
+const importAppendBtn = document.getElementById('importAppendBtn');
+const importStatus = document.getElementById('importStatus');
+
+let importedLogsCache = null;
+
+function toast(msg) {
+  // 既存のトーストが無いので、まずはステータス表示＋軽いalert無しで運用
+  if (importStatus) importStatus.textContent = msg;
+}
+
+// Export: JSONをダウンロード（既存の loadLogs()/saveLogs() を利用）
+exportBtn?.addEventListener('click', () => {
+  const logs = loadLogs();
+  const payload = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    logs
+  };
+
+  const json = JSON.stringify(payload, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+
+  const ts = new Date().toISOString().slice(0, 10);
+  const filename = `oil-change-logs_${ts}.json`;
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+
+  toast('Exportしました');
+});
+
+// Import: ファイル選択 → JSON解析 → 検証 → ボタン有効化
+importFile?.addEventListener('change', async (e) => {
+  importedLogsCache = null;
+  importReplaceBtn.disabled = true;
+  importAppendBtn.disabled = true;
+  toast('');
+
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  try {
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+
+    // 受け入れ形式：
+    // 1) { logs: [...] }
+    // 2) [...]（配列直）
+    const logsRaw = Array.isArray(parsed) ? parsed : parsed?.logs;
+
+    const normalized = normalizeAndValidateLogs(logsRaw);
+
+    importedLogsCache = normalized;
+    importReplaceBtn.disabled = false;
+    importAppendBtn.disabled = false;
+    toast(`読み込みOK: ${normalized.length}件（Replace/Appendを選択）`);
+  } catch (err) {
+    importedLogsCache = null;
+    importFile.value = '';
+    toast(`読み込み失敗: ${err?.message || err}`);
+  }
+});
+
+// Replace: 全置換
+importReplaceBtn?.addEventListener('click', () => {
+  if (!importedLogsCache) return;
+
+  saveLogs(importedLogsCache);
+  importedLogsCache = null;
+  importReplaceBtn.disabled = true;
+  importAppendBtn.disabled = true;
+  importFile.value = '';
+
+  // 画面更新（このアプリの既存関数）
+  displayHistory();
+  updateNextChange();
+  renderChart();
+
+  toast('置換しました');
+});
+
+// Append: 追加（date+odometerで重複判定）
+importAppendBtn?.addEventListener('click', () => {
+  if (!importedLogsCache) return;
+
+  const current = loadLogs();
+  const keyOf = (x) => `${x.date}__${x.odometer}`;
+  const seen = new Set(current.map(keyOf));
+
+  const merged = [...current];
+  for (const item of importedLogsCache) {
+    const k = keyOf(item);
+    if (seen.has(k)) continue;
+    merged.push(item);
+    seen.add(k);
+  }
+
+  saveLogs(merged);
+  importedLogsCache = null;
+  importReplaceBtn.disabled = true;
+  importAppendBtn.disabled = true;
+  importFile.value = '';
+
+  displayHistory();
+  updateNextChange();
+  renderChart();
+
+  toast(`追加しました（合計: ${merged.length}件）`);
+});
+
+// logsを検証＋正規化（このアプリのデータ構造に合わせる）
+function normalizeAndValidateLogs(logs) {
+  if (!Array.isArray(logs)) throw new Error('logs配列が見つかりません');
+
+  return logs.map((x, i) => {
+    if (typeof x !== 'object' || x === null) throw new Error(`log[${i}] が不正です`);
+
+    const date = String(x.date || '').trim();
+    const odometer = Number(x.odometer);
+
+    if (!date) throw new Error(`log[${i}] date がありません`);
+    if (!Number.isFinite(odometer) || odometer <= 0) throw new Error(`log[${i}] odometer が不正です`);
+
+    // 既存UIが参照しているキーに合わせる
+    return {
+      date,
+      odometer,
+      oilType: String(x.oilType || '全合成油'),
+      oilBrand: String(x.oilBrand || ''),
+      cost: x.cost === null || x.cost === '' || x.cost === undefined ? null : Number(x.cost),
+      note: String(x.note || '')
+    };
+  });
+}
+
     </script>
 </body>
 </html>
