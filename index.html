@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>オイル交換ログ</title>
+    <title>バイクメンテナンスログ</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
@@ -47,27 +47,55 @@
             margin-bottom: 20px;
         }
 
-        .next-change {
+        .next-change-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .next-change-item {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
             text-align: center;
             padding: 20px;
+            border-radius: 12px;
         }
 
-        .next-change .label {
-            font-size: 14px;
-            opacity: 0.9;
+        .next-change-item.oil {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .next-change-item.tire {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .next-change-item.chain {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+
+        .next-change-item.sprocket {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .next-change-item .icon {
+            font-size: 32px;
             margin-bottom: 8px;
         }
 
-        .next-change .distance {
-            font-size: 36px;
+        .next-change-item .label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+
+        .next-change-item .distance {
+            font-size: 24px;
             font-weight: bold;
             margin-bottom: 4px;
         }
 
-        .next-change .info {
-            font-size: 13px;
+        .next-change-item .info {
+            font-size: 11px;
             opacity: 0.8;
         }
 
@@ -75,6 +103,44 @@
             font-size: 18px;
             margin-bottom: 16px;
             color: #333;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 15px;
+            color: #666;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: #667eea;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         .form-group {
@@ -112,6 +178,12 @@
             min-height: 60px;
         }
 
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
         .btn {
             width: 100%;
             padding: 14px;
@@ -140,12 +212,78 @@
             color: #333;
         }
 
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .filter-tab:hover {
+            background: #e0e0e0;
+        }
+
+        .filter-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
         .history-item {
-            border-left: 3px solid #667eea;
+            border-left: 4px solid #667eea;
             padding: 16px;
             background: #f8f9fa;
             border-radius: 8px;
             margin-bottom: 12px;
+            position: relative;
+        }
+
+        .history-item.oil {
+            border-left-color: #667eea;
+        }
+
+        .history-item.tire {
+            border-left-color: #fa709a;
+        }
+
+        .history-item.chain {
+            border-left-color: #30cfd0;
+        }
+
+        .history-item.sprocket {
+            border-left-color: #a8edea;
+        }
+
+        .history-item .type-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .history-item.tire .type-badge {
+            background: #fa709a;
+        }
+
+        .history-item.chain .type-badge {
+            background: #30cfd0;
+        }
+
+        .history-item.sprocket .type-badge {
+            background: #a8edea;
+            color: #333;
         }
 
         .history-item .date {
@@ -196,7 +334,9 @@
             cursor: pointer;
             font-size: 14px;
             padding: 4px 8px;
-            float: right;
+            position: absolute;
+            top: 16px;
+            right: 16px;
         }
 
         .delete-btn:hover {
@@ -204,7 +344,66 @@
         }
 
         #changeChart {
-            max-height: 300px;
+            max-height: 350px;
+        }
+
+        .data-management {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 12px;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(0);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .import-info {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .import-info strong {
+            color: #333;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .next-change-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -221,89 +420,158 @@
                 font-size: 24px;
             }
 
-            .next-change .distance {
-                font-size: 28px;
+            .tabs {
+                gap: 4px;
+            }
+
+            .tab {
+                padding: 10px 12px;
+                font-size: 13px;
             }
         }
-        .backup{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
-  margin:12px 0 16px;
-}
-.importLabel{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 10px;
-  border:1px solid #ddd;
-  border-radius:8px;
-  cursor:pointer;
-}
-.importLabel input{ display:none; }
-.status{ font-size:12px; opacity:.8; }
-
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏍️ オイル交換ログ</h1>
-            <p>バイクのメンテナンス記録を管理</p>
-            <div class="backup">
-  <button id="exportBtn" type="button">Export (JSON)</button>
-
-  <label class="importLabel">
-    Import (JSON)
-    <input id="importFile" type="file" accept="application/json" />
-  </label>
-
-  <button id="importReplaceBtn" type="button" disabled>Import: Replace</button>
-  <button id="importAppendBtn" type="button" disabled>Import: Append</button>
-
-  <span id="importStatus" class="status"></span>
-</div>
+            <h1>🏍️ バイクメンテナンスログ</h1>
+            <p>愛車の整備記録を一括管理</p>
         </div>
 
-        <div class="card next-change">
-            <div class="label">次回交換目安</div>
-            <div class="distance" id="nextChange">- km</div>
-            <div class="info" id="changeInfo">データを入力してください</div>
+        <div class="card">
+            <h2 style="margin-bottom: 16px;">📅 次回交換目安</h2>
+            <div class="next-change-grid" id="nextChangeGrid"></div>
         </div>
 
         <div class="card">
             <div class="form-section">
                 <h2>📝 新規記録</h2>
-                <form id="oilChangeForm">
+                
+                <div class="tabs">
+                    <button class="tab active" data-type="oil">🛢️ オイル</button>
+                    <button class="tab" data-type="tire">🛞 タイヤ</button>
+                    <button class="tab" data-type="chain">⛓️ チェーン</button>
+                    <button class="tab" data-type="sprocket">⚙️ スプロケット</button>
+                    <button class="tab" data-type="other">🔧 その他</button>
+                </div>
+
+                <form id="maintenanceForm">
+                    <input type="hidden" id="maintenanceType" value="oil">
+                    
                     <div class="form-group">
-                        <label for="date">交換日</label>
+                        <label for="date">交換・整備日</label>
                         <input type="date" id="date" required>
                     </div>
+                    
                     <div class="form-group">
                         <label for="odometer">走行距離（km）</label>
                         <input type="number" id="odometer" placeholder="例: 5000" required>
                     </div>
-                    <div class="form-group">
-                        <label for="oilType">オイルタイプ</label>
-                        <select id="oilType">
-                            <option value="鉱物油">鉱物油</option>
-                            <option value="部分合成油">部分合成油</option>
-                            <option value="全合成油" selected>全合成油</option>
-                        </select>
+
+                    <!-- オイル専用フィールド -->
+                    <div class="tab-content active" id="content-oil">
+                        <div class="form-group">
+                            <label for="oilType">オイルタイプ</label>
+                            <select id="oilType">
+                                <option value="鉱物油">鉱物油</option>
+                                <option value="部分合成油">部分合成油</option>
+                                <option value="全合成油" selected>全合成油</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="oilBrand">オイル銘柄</label>
+                            <input type="text" id="oilBrand" placeholder="例: Castrol POWER1">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="oilBrand">オイル銘柄</label>
-                        <input type="text" id="oilBrand" placeholder="例: Castrol POWER1">
+
+                    <!-- タイヤ専用フィールド -->
+                    <div class="tab-content" id="content-tire">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="tirePosition">交換箇所</label>
+                                <select id="tirePosition">
+                                    <option value="前後">前後</option>
+                                    <option value="フロント">フロント</option>
+                                    <option value="リア">リア</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tireBrand">タイヤ銘柄</label>
+                                <input type="text" id="tireBrand" placeholder="例: BATTLAX">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tireSize">タイヤサイズ</label>
+                            <input type="text" id="tireSize" placeholder="例: 120/70-17, 180/55-17">
+                        </div>
                     </div>
+
+                    <!-- チェーン専用フィールド -->
+                    <div class="tab-content" id="content-chain">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="chainBrand">チェーン銘柄</label>
+                                <input type="text" id="chainBrand" placeholder="例: DID">
+                            </div>
+                            <div class="form-group">
+                                <label for="chainSize">チェーンサイズ</label>
+                                <input type="text" id="chainSize" placeholder="例: 525-120L">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="chainType">チェーンタイプ</label>
+                            <select id="chainType">
+                                <option value="ノンシール">ノンシール</option>
+                                <option value="Oリング">Oリング</option>
+                                <option value="Xリング" selected>Xリング</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- スプロケット専用フィールド -->
+                    <div class="tab-content" id="content-sprocket">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sprocketPosition">交換箇所</label>
+                                <select id="sprocketPosition">
+                                    <option value="前後">前後</option>
+                                    <option value="ドライブ">ドライブ</option>
+                                    <option value="ドリブン">ドリブン</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sprocketTeeth">丁数</label>
+                                <input type="text" id="sprocketTeeth" placeholder="例: F15/R43">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sprocketBrand">スプロケット銘柄</label>
+                            <input type="text" id="sprocketBrand" placeholder="例: SUNSTAR">
+                        </div>
+                    </div>
+
+                    <!-- その他専用フィールド -->
+                    <div class="tab-content" id="content-other">
+                        <div class="form-group">
+                            <label for="otherItem">整備項目</label>
+                            <input type="text" id="otherItem" placeholder="例: ブレーキパッド、プラグ、エアフィルター">
+                        </div>
+                        <div class="form-group">
+                            <label for="otherDetails">詳細</label>
+                            <input type="text" id="otherDetails" placeholder="例: フロント、純正品">
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="cost">費用（円）</label>
                         <input type="number" id="cost" placeholder="例: 3000">
                     </div>
+                    
                     <div class="form-group">
                         <label for="note">メモ</label>
-                        <textarea id="note" placeholder="フィルターも交換、エアクリーナー清掃など"></textarea>
+                        <textarea id="note" placeholder="その他の作業内容や気づいたことなど"></textarea>
                     </div>
+                    
                     <button type="submit" class="btn">記録を保存</button>
                 </form>
             </div>
@@ -311,27 +579,88 @@
 
         <div class="card">
             <div class="history-section">
-                <h2>📈 交換グラフ</h2>
+                <h2>📈 メンテナンスグラフ</h2>
                 <canvas id="changeChart"></canvas>
             </div>
         </div>
 
         <div class="card">
             <div class="history-section">
-                <h2>📊 交換履歴</h2>
+                <h2>📊 整備履歴</h2>
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">すべて</button>
+                    <button class="filter-tab" data-filter="oil">🛢️ オイル</button>
+                    <button class="filter-tab" data-filter="tire">🛞 タイヤ</button>
+                    <button class="filter-tab" data-filter="chain">⛓️ チェーン</button>
+                    <button class="filter-tab" data-filter="sprocket">⚙️ スプロケット</button>
+                    <button class="filter-tab" data-filter="other">🔧 その他</button>
+                </div>
                 <div id="historyList"></div>
+                
+                <div class="data-management">
+                    <button class="btn-secondary" onclick="exportData()">
+                        📥 データをエクスポート
+                    </button>
+                    <button class="btn-secondary" onclick="document.getElementById('fileInput').click()">
+                        📤 データをインポート
+                    </button>
+                </div>
+                <input type="file" id="fileInput" accept=".json" onchange="importData(event)">
+                
+                <div class="import-info">
+                    <strong>💡 データ管理について</strong>
+                    エクスポート: すべての記録をJSONファイルとしてダウンロードします<br>
+                    インポート: バックアップしたJSONファイルから記録を復元します（既存データは上書きされます）
+                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <script>
-        const STORAGE_KEY = 'oilChangeLogs';
-        const CHANGE_INTERVAL = 3000; // 次回交換目安: 3000km
+        const STORAGE_KEY = 'maintenanceLogs';
+        const INTERVALS = {
+            oil: 3000,
+            tire: 10000,
+            chain: 15000,
+            sprocket: 20000
+        };
+        
         let changeChart = null;
+        let currentFilter = 'all';
 
         // 今日の日付をデフォルトに設定
         document.getElementById('date').valueAsDate = new Date();
+
+        // タブ切り替え
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const type = this.dataset.type;
+                
+                // タブのアクティブ状態を更新
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // コンテンツの表示を更新
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(`content-${type}`).classList.add('active');
+                
+                // メンテナンスタイプを設定
+                document.getElementById('maintenanceType').value = type;
+            });
+        });
+
+        // フィルタータブ
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                displayHistory();
+            });
+        });
 
         // データの読み込み
         function loadLogs() {
@@ -342,6 +671,50 @@
         // データの保存
         function saveLogs(logs) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
+        }
+
+        // 次回交換目安の更新
+        function updateNextChange() {
+            const logs = loadLogs();
+            const grid = document.getElementById('nextChangeGrid');
+            
+            const types = [
+                { key: 'oil', icon: '🛢️', label: 'オイル交換', class: 'oil' },
+                { key: 'tire', icon: '🛞', label: 'タイヤ交換', class: 'tire' },
+                { key: 'chain', icon: '⛓️', label: 'チェーン交換', class: 'chain' },
+                { key: 'sprocket', icon: '⚙️', label: 'スプロケット交換', class: 'sprocket' }
+            ];
+
+            grid.innerHTML = types.map(type => {
+                const typeLogs = logs.filter(log => log.type === type.key);
+                
+                if (typeLogs.length === 0) {
+                    return `
+                        <div class="next-change-item ${type.class}">
+                            <div class="icon">${type.icon}</div>
+                            <div class="label">${type.label}</div>
+                            <div class="distance">- km</div>
+                            <div class="info">未記録</div>
+                        </div>
+                    `;
+                }
+
+                const latest = typeLogs.reduce((latest, log) => 
+                    new Date(log.date) > new Date(latest.date) ? log : latest
+                );
+
+                const nextChange = latest.odometer + INTERVALS[type.key];
+                const daysSince = Math.floor((new Date() - new Date(latest.date)) / (1000 * 60 * 60 * 24));
+
+                return `
+                    <div class="next-change-item ${type.class}">
+                        <div class="icon">${type.icon}</div>
+                        <div class="label">${type.label}</div>
+                        <div class="distance">${nextChange.toLocaleString()} km</div>
+                        <div class="info">前回: ${latest.odometer.toLocaleString()} km（${daysSince}日前）</div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // グラフの描画
@@ -358,63 +731,52 @@
                 return;
             }
 
+            const ctx = document.getElementById('changeChart');
+            ctx.style.display = 'block';
+
             // 日付でソート（古い順）
             const sortedLogs = [...logs].sort((a, b) => new Date(a.date) - new Date(b.date));
 
-            // グラフ用のデータを準備
-            const labels = sortedLogs.map(log => {
-                const date = new Date(log.date);
-                return `${date.getMonth() + 1}/${date.getDate()}`;
-            });
+            // タイプ別にデータを分類
+            const datasets = [
+                { type: 'oil', label: 'オイル交換', color: 'rgb(102, 126, 234)' },
+                { type: 'tire', label: 'タイヤ交換', color: 'rgb(250, 112, 154)' },
+                { type: 'chain', label: 'チェーン交換', color: 'rgb(48, 207, 208)' },
+                { type: 'sprocket', label: 'スプロケット交換', color: 'rgb(168, 237, 234)' }
+            ].map(item => {
+                const data = sortedLogs.map(log => {
+                    if (log.type === item.type) {
+                        return {
+                            x: new Date(log.date),
+                            y: log.odometer
+                        };
+                    }
+                    return null;
+                }).filter(d => d !== null);
 
-            const odometerData = sortedLogs.map(log => log.odometer);
-            
-            // 交換間隔を計算
-            const intervalData = sortedLogs.map((log, index) => {
-                if (index === 0) return null;
-                return log.odometer - sortedLogs[index - 1].odometer;
-            });
-
-            const ctx = document.getElementById('changeChart');
-            ctx.style.display = 'block';
+                return {
+                    label: item.label,
+                    data: data,
+                    borderColor: item.color,
+                    backgroundColor: item.color,
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    showLine: false
+                };
+            }).filter(dataset => dataset.data.length > 0);
 
             if (changeChart) {
                 changeChart.destroy();
             }
 
             changeChart = new Chart(ctx, {
-                type: 'line',
+                type: 'scatter',
                 data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: '走行距離 (km)',
-                            data: odometerData,
-                            borderColor: 'rgb(102, 126, 234)',
-                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                            tension: 0.3,
-                            fill: true,
-                            yAxisID: 'y'
-                        },
-                        {
-                            label: '交換間隔 (km)',
-                            data: intervalData,
-                            borderColor: 'rgb(245, 87, 108)',
-                            backgroundColor: 'rgba(245, 87, 108, 0.1)',
-                            tension: 0.3,
-                            fill: false,
-                            yAxisID: 'y1',
-                            borderDash: [5, 5]
-                        }
-                    ]
+                    datasets: datasets
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: true,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
                     plugins: {
                         legend: {
                             display: true,
@@ -423,43 +785,30 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += context.parsed.y.toLocaleString() + ' km';
-                                    }
-                                    return label;
+                                    const date = new Date(context.parsed.x);
+                                    return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} km (${date.getMonth() + 1}/${date.getDate()})`;
                                 }
                             }
                         }
                     },
                     scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'month',
+                                displayFormats: {
+                                    month: 'YYYY/MM'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: '日付'
+                            }
+                        },
                         y: {
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
                             title: {
                                 display: true,
                                 text: '走行距離 (km)'
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return value.toLocaleString();
-                                }
-                            }
-                        },
-                        y1: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            title: {
-                                display: true,
-                                text: '交換間隔 (km)'
-                            },
-                            grid: {
-                                drawOnChartArea: false,
                             },
                             ticks: {
                                 callback: function(value) {
@@ -474,8 +823,13 @@
 
         // 履歴の表示
         function displayHistory() {
-            const logs = loadLogs();
+            let logs = loadLogs();
             const historyList = document.getElementById('historyList');
+            
+            // フィルタリング
+            if (currentFilter !== 'all') {
+                logs = logs.filter(log => log.type === currentFilter);
+            }
             
             if (logs.length === 0) {
                 historyList.innerHTML = `
@@ -484,7 +838,7 @@
                             <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
                             <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
                         </svg>
-                        <p>まだ記録がありません</p>
+                        <p>記録がありません</p>
                     </div>
                 `;
                 return;
@@ -493,45 +847,50 @@
             // 日付でソート（新しい順）
             logs.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            historyList.innerHTML = logs.map((log, index) => `
-                <div class="history-item">
-                    <button class="delete-btn" onclick="deleteLog(${index})">削除</button>
-                    <div class="date">${formatDate(log.date)}</div>
-                    <div class="distance">${log.odometer.toLocaleString()} km</div>
-                    <div class="details">
-                        <span>🛢️ ${log.oilType}</span>
-                        ${log.oilBrand ? `<span>📦 ${log.oilBrand}</span>` : ''}
-                        ${log.cost ? `<span>💰 ¥${log.cost.toLocaleString()}</span>` : ''}
+            const typeLabels = {
+                oil: 'オイル交換',
+                tire: 'タイヤ交換',
+                chain: 'チェーン交換',
+                sprocket: 'スプロケット交換',
+                other: 'その他整備'
+            };
+
+            historyList.innerHTML = logs.map((log, index) => {
+                const details = [];
+                
+                if (log.type === 'oil') {
+                    if (log.oilType) details.push(`🛢️ ${log.oilType}`);
+                    if (log.oilBrand) details.push(`📦 ${log.oilBrand}`);
+                } else if (log.type === 'tire') {
+                    if (log.tirePosition) details.push(`📍 ${log.tirePosition}`);
+                    if (log.tireBrand) details.push(`📦 ${log.tireBrand}`);
+                    if (log.tireSize) details.push(`📏 ${log.tireSize}`);
+                } else if (log.type === 'chain') {
+                    if (log.chainType) details.push(`⛓️ ${log.chainType}`);
+                    if (log.chainBrand) details.push(`📦 ${log.chainBrand}`);
+                    if (log.chainSize) details.push(`📏 ${log.chainSize}`);
+                } else if (log.type === 'sprocket') {
+                    if (log.sprocketPosition) details.push(`📍 ${log.sprocketPosition}`);
+                    if (log.sprocketTeeth) details.push(`⚙️ ${log.sprocketTeeth}`);
+                    if (log.sprocketBrand) details.push(`📦 ${log.sprocketBrand}`);
+                } else if (log.type === 'other') {
+                    if (log.otherItem) details.push(`🔧 ${log.otherItem}`);
+                    if (log.otherDetails) details.push(`${log.otherDetails}`);
+                }
+                
+                if (log.cost) details.push(`💰 ¥${log.cost.toLocaleString()}`);
+
+                return `
+                    <div class="history-item ${log.type}">
+                        <button class="delete-btn" onclick="deleteLog(${index})">削除</button>
+                        <div class="type-badge">${typeLabels[log.type]}</div>
+                        <div class="date">${formatDate(log.date)}</div>
+                        <div class="distance">${log.odometer.toLocaleString()} km</div>
+                        ${details.length > 0 ? `<div class="details">${details.map(d => `<span>${d}</span>`).join('')}</div>` : ''}
+                        ${log.note ? `<div class="note">${log.note}</div>` : ''}
                     </div>
-                    ${log.note ? `<div class="note">${log.note}</div>` : ''}
-                </div>
-            `).join('');
-        }
-
-        // 次回交換目安の更新
-        function updateNextChange() {
-            const logs = loadLogs();
-            const nextChange = document.getElementById('nextChange');
-            const changeInfo = document.getElementById('changeInfo');
-
-            if (logs.length === 0) {
-                nextChange.textContent = '- km';
-                changeInfo.textContent = 'データを入力してください';
-                return;
-            }
-
-            // 最新のログを取得
-            const latestLog = logs.reduce((latest, log) => 
-                new Date(log.date) > new Date(latest.date) ? log : latest
-            );
-
-            const nextChangeDistance = latestLog.odometer + CHANGE_INTERVAL;
-            nextChange.textContent = `${nextChangeDistance.toLocaleString()} km`;
-
-            const lastChangeDate = new Date(latestLog.date);
-            const daysSince = Math.floor((new Date() - lastChangeDate) / (1000 * 60 * 60 * 24));
-            
-            changeInfo.textContent = `前回交換: ${latestLog.odometer.toLocaleString()} km（${daysSince}日前）`;
+                `;
+            }).join('');
         }
 
         // 日付のフォーマット
@@ -541,17 +900,38 @@
         }
 
         // フォーム送信
-        document.getElementById('oilChangeForm').addEventListener('submit', function(e) {
+        document.getElementById('maintenanceForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
+            const type = document.getElementById('maintenanceType').value;
             const newLog = {
+                type: type,
                 date: document.getElementById('date').value,
                 odometer: parseInt(document.getElementById('odometer').value),
-                oilType: document.getElementById('oilType').value,
-                oilBrand: document.getElementById('oilBrand').value,
                 cost: document.getElementById('cost').value ? parseInt(document.getElementById('cost').value) : null,
                 note: document.getElementById('note').value
             };
+
+            // タイプ別の追加情報
+            if (type === 'oil') {
+                newLog.oilType = document.getElementById('oilType').value;
+                newLog.oilBrand = document.getElementById('oilBrand').value;
+            } else if (type === 'tire') {
+                newLog.tirePosition = document.getElementById('tirePosition').value;
+                newLog.tireBrand = document.getElementById('tireBrand').value;
+                newLog.tireSize = document.getElementById('tireSize').value;
+            } else if (type === 'chain') {
+                newLog.chainBrand = document.getElementById('chainBrand').value;
+                newLog.chainSize = document.getElementById('chainSize').value;
+                newLog.chainType = document.getElementById('chainType').value;
+            } else if (type === 'sprocket') {
+                newLog.sprocketPosition = document.getElementById('sprocketPosition').value;
+                newLog.sprocketTeeth = document.getElementById('sprocketTeeth').value;
+                newLog.sprocketBrand = document.getElementById('sprocketBrand').value;
+            } else if (type === 'other') {
+                newLog.otherItem = document.getElementById('otherItem').value;
+                newLog.otherDetails = document.getElementById('otherDetails').value;
+            }
 
             const logs = loadLogs();
             logs.push(newLog);
@@ -581,16 +961,29 @@
         function deleteLog(index) {
             if (!confirm('この記録を削除しますか？')) return;
 
-            const logs = loadLogs();
-            // ソート後のインデックスから元のインデックスを見つける
-            const sortedLogs = [...logs].sort((a, b) => new Date(b.date) - new Date(a.date));
-            const logToDelete = sortedLogs[index];
-            const originalIndex = logs.findIndex(log => 
-                log.date === logToDelete.date && 
-                log.odometer === logToDelete.odometer
-            );
-
-            logs.splice(originalIndex, 1);
+            let logs = loadLogs();
+            
+            // フィルタリングされている場合は元のインデックスを見つける
+            if (currentFilter !== 'all') {
+                const filteredLogs = logs.filter(log => log.type === currentFilter);
+                const logToDelete = filteredLogs.sort((a, b) => new Date(b.date) - new Date(a.date))[index];
+                const originalIndex = logs.findIndex(log => 
+                    log.date === logToDelete.date && 
+                    log.odometer === logToDelete.odometer &&
+                    log.type === logToDelete.type
+                );
+                logs.splice(originalIndex, 1);
+            } else {
+                const sortedLogs = [...logs].sort((a, b) => new Date(b.date) - new Date(a.date));
+                const logToDelete = sortedLogs[index];
+                const originalIndex = logs.findIndex(log => 
+                    log.date === logToDelete.date && 
+                    log.odometer === logToDelete.odometer &&
+                    log.type === logToDelete.type
+                );
+                logs.splice(originalIndex, 1);
+            }
+            
             saveLogs(logs);
             displayHistory();
             updateNextChange();
@@ -601,152 +994,115 @@
         displayHistory();
         updateNextChange();
         renderChart();
-        // ===== Export / Import (JSON) =====
-// ===== Export / Import (JSON) =====
-const exportBtn = document.getElementById('exportBtn');
-const importFile = document.getElementById('importFile');
-const importReplaceBtn = document.getElementById('importReplaceBtn');
-const importAppendBtn = document.getElementById('importAppendBtn');
-const importStatus = document.getElementById('importStatus');
 
-let importedLogsCache = null;
+        // データのエクスポート
+        function exportData() {
+            const logs = loadLogs();
+            
+            if (logs.length === 0) {
+                alert('エクスポートするデータがありません');
+                return;
+            }
 
-function toast(msg) {
-  // 既存のトーストが無いので、まずはステータス表示＋軽いalert無しで運用
-  if (importStatus) importStatus.textContent = msg;
-}
+            const dataStr = JSON.stringify(logs, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            
+            // ファイル名に日付を含める
+            const today = new Date();
+            const dateStr = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
+            link.download = `bike-maintenance-${dateStr}.json`;
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
 
-// Export: JSONをダウンロード（既存の loadLogs()/saveLogs() を利用）
-exportBtn?.addEventListener('click', () => {
-  const logs = loadLogs();
-  const payload = {
-    version: 1,
-    exportedAt: new Date().toISOString(),
-    logs
-  };
+            // エクスポート完了メッセージ
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ エクスポート完了！';
+            btn.style.background = '#11998e';
+            btn.style.color = 'white';
+            btn.style.borderColor = '#11998e';
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.style.borderColor = '';
+            }, 2000);
+        }
 
-  const json = JSON.stringify(payload, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
+        // データのインポート
+        function importData(event) {
+            const file = event.target.files[0];
+            
+            if (!file) {
+                return;
+            }
 
-  const ts = new Date().toISOString().slice(0, 10);
-  const filename = `oil-change-logs_${ts}.json`;
+            if (!file.name.endsWith('.json')) {
+                alert('JSONファイルを選択してください');
+                event.target.value = '';
+                return;
+            }
 
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // データの検証
+                    if (!Array.isArray(importedData)) {
+                        throw new Error('無効なデータ形式です');
+                    }
 
-  toast('Exportしました');
-});
+                    // 各ログの必須フィールドを確認
+                    const isValid = importedData.every(log => 
+                        log.type && log.date && log.odometer !== undefined
+                    );
 
-// Import: ファイル選択 → JSON解析 → 検証 → ボタン有効化
-importFile?.addEventListener('change', async (e) => {
-  importedLogsCache = null;
-  importReplaceBtn.disabled = true;
-  importAppendBtn.disabled = true;
-  toast('');
+                    if (!isValid) {
+                        throw new Error('データに必須フィールドが不足しています');
+                    }
 
-  const file = e.target.files?.[0];
-  if (!file) return;
+                    // 確認ダイアログ
+                    const confirmMsg = `${importedData.length}件の記録をインポートします。\n既存のデータは上書きされますがよろしいですか？`;
+                    
+                    if (!confirm(confirmMsg)) {
+                        event.target.value = '';
+                        return;
+                    }
 
-  try {
-    const text = await file.text();
-    const parsed = JSON.parse(text);
+                    // データを保存
+                    saveLogs(importedData);
+                    
+                    // 表示を更新
+                    displayHistory();
+                    updateNextChange();
+                    renderChart();
 
-    // 受け入れ形式：
-    // 1) { logs: [...] }
-    // 2) [...]（配列直）
-    const logsRaw = Array.isArray(parsed) ? parsed : parsed?.logs;
+                    alert('✓ インポートが完了しました！');
+                    
+                } catch (error) {
+                    alert('エラー: ' + error.message + '\n\n正しいフォーマットのJSONファイルを選択してください。');
+                }
+                
+                // ファイル選択をリセット
+                event.target.value = '';
+            };
 
-    const normalized = normalizeAndValidateLogs(logsRaw);
+            reader.onerror = function() {
+                alert('ファイルの読み込みに失敗しました');
+                event.target.value = '';
+            };
 
-    importedLogsCache = normalized;
-    importReplaceBtn.disabled = false;
-    importAppendBtn.disabled = false;
-    toast(`読み込みOK: ${normalized.length}件（Replace/Appendを選択）`);
-  } catch (err) {
-    importedLogsCache = null;
-    importFile.value = '';
-    toast(`読み込み失敗: ${err?.message || err}`);
-  }
-});
-
-// Replace: 全置換
-importReplaceBtn?.addEventListener('click', () => {
-  if (!importedLogsCache) return;
-
-  saveLogs(importedLogsCache);
-  importedLogsCache = null;
-  importReplaceBtn.disabled = true;
-  importAppendBtn.disabled = true;
-  importFile.value = '';
-
-  // 画面更新（このアプリの既存関数）
-  displayHistory();
-  updateNextChange();
-  renderChart();
-
-  toast('置換しました');
-});
-
-// Append: 追加（date+odometerで重複判定）
-importAppendBtn?.addEventListener('click', () => {
-  if (!importedLogsCache) return;
-
-  const current = loadLogs();
-  const keyOf = (x) => `${x.date}__${x.odometer}`;
-  const seen = new Set(current.map(keyOf));
-
-  const merged = [...current];
-  for (const item of importedLogsCache) {
-    const k = keyOf(item);
-    if (seen.has(k)) continue;
-    merged.push(item);
-    seen.add(k);
-  }
-
-  saveLogs(merged);
-  importedLogsCache = null;
-  importReplaceBtn.disabled = true;
-  importAppendBtn.disabled = true;
-  importFile.value = '';
-
-  displayHistory();
-  updateNextChange();
-  renderChart();
-
-  toast(`追加しました（合計: ${merged.length}件）`);
-});
-
-// logsを検証＋正規化（このアプリのデータ構造に合わせる）
-function normalizeAndValidateLogs(logs) {
-  if (!Array.isArray(logs)) throw new Error('logs配列が見つかりません');
-
-  return logs.map((x, i) => {
-    if (typeof x !== 'object' || x === null) throw new Error(`log[${i}] が不正です`);
-
-    const date = String(x.date || '').trim();
-    const odometer = Number(x.odometer);
-
-    if (!date) throw new Error(`log[${i}] date がありません`);
-    if (!Number.isFinite(odometer) || odometer <= 0) throw new Error(`log[${i}] odometer が不正です`);
-
-    // 既存UIが参照しているキーに合わせる
-    return {
-      date,
-      odometer,
-      oilType: String(x.oilType || '全合成油'),
-      oilBrand: String(x.oilBrand || ''),
-      cost: x.cost === null || x.cost === '' || x.cost === undefined ? null : Number(x.cost),
-      note: String(x.note || '')
-    };
-  });
-}
-
+            reader.readAsText(file);
+        }
     </script>
 </body>
 </html>
