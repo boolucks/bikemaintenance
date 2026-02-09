@@ -7,48 +7,15 @@
     
     <!-- iOS PWA対応 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="メンテナンス">
-    <meta name="theme-color" content="#f2f2f7">
+    <meta name="theme-color" content="#000000">
     
     <!-- アイコン設定 -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23007AFF' width='100' height='100' rx='20'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='white'>🏍️</text></svg>">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🏍️</text></svg>">
     
     <style>
-        :root {
-            /* iOS System Colors */
-            --ios-blue: #007AFF;
-            --ios-red: #FF3B30;
-            --ios-green: #34C759;
-            --ios-orange: #FF9500;
-            --ios-purple: #AF52DE;
-            --ios-teal: #5AC8FA;
-            
-            /* iOS Background Colors */
-            --ios-bg-primary: #f2f2f7;
-            --ios-bg-secondary: #ffffff;
-            --ios-bg-tertiary: #f2f2f7;
-            --ios-bg-grouped: #f2f2f7;
-            
-            /* iOS Label Colors */
-            --ios-label-primary: #000000;
-            --ios-label-secondary: #3c3c43;
-            --ios-label-tertiary: #3c3c4399;
-            --ios-label-quaternary: #3c3c434d;
-            
-            /* iOS Separator */
-            --ios-separator: #3c3c4349;
-            --ios-separator-opaque: #c6c6c8;
-            
-            /* iOS Fill */
-            --ios-fill-primary: #78788033;
-            --ios-fill-secondary: #78788028;
-            --ios-fill-tertiary: #7676801e;
-            --ios-fill-quaternary: #74748014;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -56,183 +23,414 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-            background: var(--ios-bg-grouped);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background: #000000;
+            color: #ffffff;
             min-height: 100vh;
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            color: var(--ios-label-primary);
-            overscroll-behavior: none;
         }
 
-        /* Navigation Bar */
-        .navbar {
-            background: rgba(255, 255, 255, 0.8);
-            border-bottom: 0.5px solid var(--ios-separator-opaque);
-            padding: 12px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+        /* Header */
+        .header {
+            padding: 20px 16px 24px 16px;
+            text-align: center;
         }
 
-        .navbar-title {
-            font-size: 34px;
-            font-weight: 700;
-            letter-spacing: 0.374px;
-            line-height: 41px;
+        .header-title {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         /* Container */
         .container {
             max-width: 600px;
             margin: 0 auto;
+            padding: 0 16px;
         }
 
-        /* Section Header */
-        .section-header {
-            padding: 16px 16px 8px 16px;
-            font-size: 13px;
-            font-weight: 400;
-            color: var(--ios-label-secondary);
-            text-transform: uppercase;
-            letter-spacing: -0.08px;
-        }
-
-        /* Section Footer */
-        .section-footer {
-            padding: 8px 16px 16px 16px;
-            font-size: 13px;
-            font-weight: 400;
-            color: var(--ios-label-secondary);
-            line-height: 18px;
-        }
-
-        /* Grouped List */
-        .list-group {
-            background: var(--ios-bg-secondary);
-            border-radius: 10px;
-            margin: 0 16px 20px 16px;
-            overflow: hidden;
-        }
-
-        .list-item {
-            padding: 11px 16px;
-            border-bottom: 0.5px solid var(--ios-separator-opaque);
-            min-height: 44px;
-            -webkit-tap-highlight-color: transparent;
-            background: var(--ios-bg-secondary);
-        }
-
-        .list-item:last-child {
-            border-bottom: none;
-        }
-
-        /* Card Style */
-        .card-grid {
+        /* Info Cards Grid */
+        .info-cards-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            margin: 0 16px 20px 16px;
+            margin-bottom: 16px;
         }
 
-        .card {
-            background: var(--ios-bg-secondary);
-            border-radius: 10px;
-            padding: 16px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        .info-card {
+            background: #1c1c1e;
+            border-radius: 16px;
+            padding: 20px;
         }
 
-        .card-icon {
+        .info-icon {
             font-size: 28px;
             margin-bottom: 8px;
         }
 
-        .card-label {
+        .info-label {
             font-size: 13px;
-            font-weight: 400;
-            color: var(--ios-label-secondary);
+            color: #8e8e93;
             margin-bottom: 4px;
         }
 
-        .card-value {
+        .info-value {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 2px;
+            letter-spacing: 0.3px;
         }
 
-        .card-info {
+        .info-subvalue {
             font-size: 11px;
-            color: var(--ios-label-tertiary);
+            color: #8e8e93;
+            margin-top: 2px;
         }
 
-        /* Form Elements */
-        .form-input,
-        .form-select,
-        .form-textarea {
-            width: 100%;
-            padding: 0;
-            border: none;
+        /* Search & Actions */
+        .actions-section {
+            background: #1c1c1e;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .search-box {
+            background: #2c2c2e;
+            border: 1px solid #3a3a3c;
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .search-icon {
+            font-size: 20px;
+            color: #8e8e93;
+        }
+
+        .search-input {
+            flex: 1;
             background: transparent;
-            font-size: 17px;
-            font-weight: 400;
-            letter-spacing: -0.408px;
-            color: var(--ios-label-primary);
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
             outline: none;
         }
 
-        .form-input::placeholder {
-            color: var(--ios-label-tertiary);
+        .search-input::placeholder {
+            color: #8e8e93;
         }
 
-        .form-select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233c3c43' opacity='0.3' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0 center;
-            padding-right: 20px;
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .filter-btn {
+            flex: 1;
+            background: #2c2c2e;
+            border: 1px solid #3a3a3c;
+            border-radius: 10px;
+            padding: 12px;
+            color: #ffffff;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .filter-btn:active {
+            opacity: 0.7;
+        }
+
+        .new-record-btn {
+            flex: 1.2;
+            background: #5b7ae5;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .new-record-btn:active {
+            opacity: 0.8;
+        }
+
+        /* Chart Section */
+        .chart-section {
+            background: #1c1c1e;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        #changeChart {
+            max-height: 280px;
+        }
+
+        /* History Section */
+        .history-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding: 0 4px;
+        }
+
+        .history-card {
+            background: #1c1c1e;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+
+        .history-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .history-badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            background: #2c2c2e;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .history-date {
+            font-size: 13px;
+            color: #8e8e93;
+        }
+
+        .history-distance {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .history-details {
+            font-size: 15px;
+            color: #8e8e93;
+            line-height: 22px;
+            margin-bottom: 6px;
+        }
+
+        .history-note {
+            font-size: 15px;
+            color: #8e8e93;
+            font-style: italic;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ff453a;
+            cursor: pointer;
+            font-size: 15px;
+            padding: 4px 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .delete-btn:active {
+            opacity: 0.5;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1c1c1e;
+            border-top: 0.5px solid #3a3a3c;
+            padding-bottom: env(safe-area-inset-bottom);
+            display: flex;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 0 12px 0;
+            gap: 4px;
+            background: none;
+            border: none;
+            color: #8e8e93;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-item.active {
+            color: #5b7ae5;
+        }
+
+        .nav-item:active {
+            opacity: 0.5;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: flex-end;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1c1c1e;
+            border-radius: 16px 16px 0 0;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 24px 16px;
+            padding-bottom: calc(24px + env(safe-area-inset-bottom));
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #5b7ae5;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: #8e8e93;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: #2c2c2e;
+            border: 1px solid #3a3a3c;
+            border-radius: 10px;
+            padding: 14px 16px;
+            color: #ffffff;
+            font-size: 16px;
+            -webkit-appearance: none;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #5b7ae5;
+        }
+
+        .form-input::placeholder {
+            color: #8e8e93;
         }
 
         .form-textarea {
+            min-height: 100px;
             resize: vertical;
-            min-height: 66px;
-            line-height: 22px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #5b7ae5;
+            border: none;
+            border-radius: 10px;
+            padding: 16px;
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .submit-btn:active {
+            opacity: 0.8;
         }
 
         /* Tabs */
         .tab-bar {
             display: flex;
-            background: var(--ios-bg-secondary);
-            border-radius: 10px;
-            padding: 2px;
-            margin: 0 16px 20px 16px;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-bar::-webkit-scrollbar {
+            display: none;
         }
 
         .tab {
-            flex: 1;
-            padding: 8px 12px;
-            background: transparent;
+            background: #2c2c2e;
             border: none;
-            border-radius: 8px;
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: #8e8e93;
+            font-size: 14px;
+            white-space: nowrap;
             cursor: pointer;
-            font-size: 13px;
-            font-weight: 400;
-            color: var(--ios-label-primary);
-            transition: all 0.2s;
             -webkit-tap-highlight-color: transparent;
         }
 
         .tab.active {
-            background: var(--ios-fill-tertiary);
+            background: #5b7ae5;
+            color: #ffffff;
             font-weight: 600;
         }
 
@@ -244,445 +442,294 @@
             display: block;
         }
 
-        /* Filter Pills */
-        .filter-pills {
-            display: flex;
-            gap: 8px;
-            padding: 0 16px 16px 16px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .filter-pills::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-pill {
-            padding: 6px 14px;
-            background: var(--ios-fill-tertiary);
-            border: none;
-            border-radius: 16px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 400;
-            color: var(--ios-label-primary);
-            white-space: nowrap;
-            transition: all 0.2s;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .filter-pill.active {
-            background: var(--ios-blue);
-            color: white;
-            font-weight: 600;
-        }
-
-        /* Buttons */
-        .btn-primary {
-            width: calc(100% - 32px);
-            margin: 0 16px 16px 16px;
-            padding: 14px;
-            background: var(--ios-blue);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            transition: opacity 0.2s;
-        }
-
-        .btn-primary:active {
-            opacity: 0.5;
-        }
-
-        .btn-secondary {
-            flex: 1;
-            padding: 10px;
-            background: var(--ios-fill-tertiary);
-            color: var(--ios-blue);
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .btn-secondary:active {
-            opacity: 0.5;
-        }
-
-        .btn-group {
-            display: flex;
+        /* Filter Modal */
+        .filter-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            margin: 0 16px 16px 16px;
         }
 
-        /* History Item */
-        .history-item {
-            padding: 12px 16px;
-            border-bottom: 0.5px solid var(--ios-separator-opaque);
+        .filter-option {
+            background: #2c2c2e;
+            border: 2px solid #3a3a3c;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .history-item:last-child {
-            border-bottom: none;
+        .filter-option.active {
+            border-color: #5b7ae5;
+            background: #2c3447;
         }
 
-        .history-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .filter-option-icon {
+            font-size: 32px;
             margin-bottom: 8px;
         }
 
-        .history-badge {
-            display: inline-flex;
-            padding: 4px 8px;
-            background: var(--ios-fill-tertiary);
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .history-date {
-            font-size: 13px;
-            color: var(--ios-label-tertiary);
-        }
-
-        .history-distance {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .history-details {
-            font-size: 15px;
-            color: var(--ios-label-secondary);
-            margin-bottom: 6px;
-        }
-
-        .history-note {
-            font-size: 15px;
-            color: var(--ios-label-secondary);
-            font-style: italic;
-        }
-
-        .delete-btn {
-            background: none;
-            border: none;
-            color: var(--ios-red);
-            cursor: pointer;
-            font-size: 15px;
-            padding: 4px 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .delete-btn:active {
-            opacity: 0.5;
-        }
-
-        /* Chart */
-        .chart-container {
-            background: var(--ios-bg-secondary);
-            border-radius: 10px;
-            padding: 16px;
-            margin: 0 16px 20px 16px;
-        }
-
-        #changeChart {
-            max-height: 300px;
+        .filter-option-label {
+            font-size: 14px;
+            color: #ffffff;
         }
 
         /* Empty State */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
+            color: #8e8e93;
         }
 
-        .empty-state-icon {
+        .empty-icon {
             font-size: 64px;
             margin-bottom: 16px;
             opacity: 0.3;
         }
 
-        .empty-state-text {
-            font-size: 17px;
-            color: var(--ios-label-tertiary);
-        }
-
-        #fileInput {
-            display: none;
-        }
-
-        /* iOS Install Prompt */
-        #iosInstallPrompt {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--ios-bg-secondary);
-            border-top: 0.5px solid var(--ios-separator-opaque);
-            padding: 20px;
-            padding-bottom: max(20px, env(safe-area-inset-bottom));
-            z-index: 9999;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .install-prompt-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        .install-prompt-text {
-            font-size: 15px;
-            color: var(--ios-label-secondary);
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        .install-prompt-steps {
-            background: var(--ios-fill-tertiary);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 16px;
-            font-size: 15px;
-        }
-
-        .install-prompt-step {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .install-prompt-step:last-child {
-            margin-bottom: 0;
-        }
-
         .spacer {
-            height: 20px;
-        }
-
-        /* Dark Mode */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --ios-bg-primary: #000000;
-                --ios-bg-secondary: #1c1c1e;
-                --ios-bg-tertiary: #2c2c2e;
-                --ios-bg-grouped: #000000;
-                
-                --ios-label-primary: #ffffff;
-                --ios-label-secondary: #ebebf599;
-                --ios-label-tertiary: #ebebf56b;
-                --ios-label-quaternary: #ebebf52e;
-                
-                --ios-separator: #54545899;
-                --ios-separator-opaque: #38383a;
-                
-                --ios-fill-primary: #7676804d;
-                --ios-fill-secondary: #7676803d;
-                --ios-fill-tertiary: #7676802e;
-                --ios-fill-quaternary: #7676801e;
-            }
-
-            .navbar {
-                background: rgba(28, 28, 30, 0.8);
-            }
+            height: 80px;
         }
 
         @media (max-width: 600px) {
-            .card-grid {
+            .info-cards-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div id="iosInstallPrompt">
-        <div class="install-prompt-title">📱 ホーム画面に追加</div>
-        <div class="install-prompt-text">このアプリをホーム画面に追加すると、アプリのように使えます</div>
-        <div class="install-prompt-steps">
-            <div class="install-prompt-step">
-                <span>1️⃣</span>
-                <span>下部の共有ボタンをタップ</span>
-            </div>
-            <div class="install-prompt-step">
-                <span>2️⃣</span>
-                <span>「ホーム画面に追加」を選択</span>
-            </div>
-        </div>
-        <button class="btn-primary" onclick="document.getElementById('iosInstallPrompt').style.display='none'" style="margin: 0; width: 100%;">閉じる</button>
-    </div>
-
-    <div class="navbar">
-        <div class="navbar-title">メンテナンス</div>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-title">メンテナンス</div>
     </div>
 
     <div class="container">
-        <div class="section-header">次回交換目安</div>
-        <div class="card-grid" id="nextChangeGrid"></div>
+        <!-- Info Cards -->
+        <div class="info-cards-grid" id="infoCardsGrid"></div>
 
-        <div class="section-header">新規記録</div>
-        
-        <div class="tab-bar">
-            <button class="tab active" data-type="oil">オイル</button>
-            <button class="tab" data-type="tire">タイヤ</button>
-            <button class="tab" data-type="chain">チェーン</button>
-            <button class="tab" data-type="sprocket">スプロケ</button>
-            <button class="tab" data-type="other">その他</button>
+        <!-- Search & Actions -->
+        <div class="actions-section">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="検索" id="searchInput">
+            </div>
+            <div class="action-buttons">
+                <button class="filter-btn" onclick="openFilterModal()">
+                    <span id="filterLabel">すべて</span>
+                    <span>▼</span>
+                </button>
+                <button class="new-record-btn" onclick="openNewRecordModal()">
+                    <span>+</span>
+                    <span>新規記録</span>
+                </button>
+            </div>
         </div>
 
-        <form id="maintenanceForm">
-            <input type="hidden" id="maintenanceType" value="oil">
-            
-            <div class="list-group">
-                <div class="list-item">
-                    <input type="date" id="date" class="form-input" required>
-                </div>
-                <div class="list-item">
-                    <input type="number" id="odometer" class="form-input" placeholder="走行距離（km）" required>
-                </div>
-                
-                <div id="content-oil" class="tab-content active">
-                    <div class="list-item">
-                        <select id="oilType" class="form-select">
-                            <option value="鉱物油">鉱物油</option>
-                            <option value="部分合成油">部分合成油</option>
-                            <option value="全合成油" selected>全合成油</option>
-                        </select>
-                    </div>
-                    <div class="list-item">
-                        <input type="text" id="oilBrand" class="form-input" placeholder="オイル銘柄">
-                    </div>
-                </div>
-
-                <div id="content-tire" class="tab-content">
-                    <div class="list-item">
-                        <select id="tirePosition" class="form-select">
-                            <option value="前後">前後</option>
-                            <option value="フロント">フロント</option>
-                            <option value="リア">リア</option>
-                        </select>
-                    </div>
-                    <div class="list-item">
-                        <input type="text" id="tireBrand" class="form-input" placeholder="タイヤ銘柄">
-                    </div>
-                    <div class="list-item">
-                        <input type="text" id="tireSize" class="form-input" placeholder="タイヤサイズ">
-                    </div>
-                </div>
-
-                <div id="content-chain" class="tab-content">
-                    <div class="list-item">
-                        <input type="text" id="chainBrand" class="form-input" placeholder="チェーン銘柄">
-                    </div>
-                    <div class="list-item">
-                        <input type="text" id="chainSize" class="form-input" placeholder="チェーンサイズ">
-                    </div>
-                    <div class="list-item">
-                        <select id="chainType" class="form-select">
-                            <option value="ノンシール">ノンシール</option>
-                            <option value="Oリング">Oリング</option>
-                            <option value="Xリング" selected>Xリング</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="content-sprocket" class="tab-content">
-                    <div class="list-item">
-                        <select id="sprocketPosition" class="form-select">
-                            <option value="前後">前後</option>
-                            <option value="ドライブ">ドライブ</option>
-                            <option value="ドリブン">ドリブン</option>
-                        </select>
-                    </div>
-                    <div class="list-item">
-                        <input type="text" id="sprocketTeeth" class="form-input" placeholder="丁数">
-                    </div>
-                    <div class="list-item">
-                        <input type="text" id="sprocketBrand" class="form-input" placeholder="スプロケット銘柄">
-                    </div>
-                </div>
-
-                <div id="content-other" class="tab-content">
-                    <div class="list-item">
-                        <input type="text" id="otherItem" class="form-input" placeholder="整備項目">
-                    </div>
-                    <div class="list-item">
-                        <input type="text" id="otherDetails" class="form-input" placeholder="詳細">
-                    </div>
-                </div>
-
-                <div class="list-item">
-                    <input type="number" id="cost" class="form-input" placeholder="費用（円）">
-                </div>
-                <div class="list-item">
-                    <textarea id="note" class="form-textarea" placeholder="メモ"></textarea>
-                </div>
-            </div>
-            
-            <button type="submit" class="btn-primary">記録を保存</button>
-        </form>
-
-        <div class="section-header">グラフ</div>
-        <div class="chart-container">
+        <!-- Chart -->
+        <div class="chart-section">
+            <div class="section-title">グラフ</div>
             <canvas id="changeChart"></canvas>
         </div>
 
-        <div class="section-header">整備履歴</div>
-        <div class="filter-pills">
-            <button class="filter-pill active" data-filter="all">すべて</button>
-            <button class="filter-pill" data-filter="oil">🛢️ オイル</button>
-            <button class="filter-pill" data-filter="tire">🛞 タイヤ</button>
-            <button class="filter-pill" data-filter="chain">⛓️ チェーン</button>
-            <button class="filter-pill" data-filter="sprocket">⚙️ スプロケ</button>
-            <button class="filter-pill" data-filter="other">🔧 その他</button>
-        </div>
-        
-        <div class="list-group">
-            <div id="historyList"></div>
-        </div>
-
-        <div class="btn-group">
-            <button class="btn-secondary" onclick="exportData()">エクスポート</button>
-            <button class="btn-secondary" onclick="document.getElementById('fileInput').click()">インポート</button>
-        </div>
-        <input type="file" id="fileInput" accept=".json" onchange="importData(event)">
-        
-        <div class="section-footer">
-            エクスポート: すべての記録をJSONファイルとしてダウンロード<br>
-            インポート: バックアップから記録を復元（既存データは上書きされます）
-        </div>
+        <!-- History -->
+        <div class="history-header">整備履歴</div>
+        <div id="historyList"></div>
 
         <div class="spacer"></div>
     </div>
 
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <button class="nav-item active">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Home</span>
+        </button>
+        <button class="nav-item" onclick="openSettingsModal()">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-label">Setting</span>
+        </button>
+    </div>
+
+    <!-- New Record Modal -->
+    <div class="modal" id="newRecordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">新規記録</div>
+                <button class="close-btn" onclick="closeNewRecordModal()">閉じる</button>
+            </div>
+
+            <div class="tab-bar">
+                <button class="tab active" data-type="oil">🛢️ オイル</button>
+                <button class="tab" data-type="tire">🛞 タイヤ</button>
+                <button class="tab" data-type="chain">⛓️ チェーン</button>
+                <button class="tab" data-type="sprocket">⚙️ スプロケ</button>
+                <button class="tab" data-type="other">🔧 その他</button>
+            </div>
+
+            <form id="maintenanceForm">
+                <input type="hidden" id="maintenanceType" value="oil">
+
+                <div class="form-group">
+                    <label class="form-label">日付</label>
+                    <input type="date" id="date" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">走行距離（km）</label>
+                    <input type="number" id="odometer" class="form-input" placeholder="例: 3000" required>
+                </div>
+
+                <div id="content-oil" class="tab-content active">
+                    <div class="form-group">
+                        <label class="form-label">オイル銘柄</label>
+                        <input type="text" id="oilBrand" class="form-input" placeholder="例: Castrol POWER1">
+                    </div>
+                </div>
+
+                <div id="content-tire" class="tab-content">
+                    <div class="form-group">
+                        <label class="form-label">交換箇所</label>
+                        <input type="text" id="tirePosition" class="form-input" placeholder="例: フロント">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">タイヤ銘柄</label>
+                        <input type="text" id="tireBrand" class="form-input" placeholder="例: BATTLAX">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">タイヤサイズ</label>
+                        <input type="text" id="tireSize" class="form-input" placeholder="例: 120/70-17">
+                    </div>
+                </div>
+
+                <div id="content-chain" class="tab-content">
+                    <div class="form-group">
+                        <label class="form-label">チェーン銘柄</label>
+                        <input type="text" id="chainBrand" class="form-input" placeholder="例: DID">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">チェーンサイズ</label>
+                        <input type="text" id="chainSize" class="form-input" placeholder="例: 525-120L">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">チェーンタイプ</label>
+                        <input type="text" id="chainType" class="form-input" placeholder="例: Xリング">
+                    </div>
+                </div>
+
+                <div id="content-sprocket" class="tab-content">
+                    <div class="form-group">
+                        <label class="form-label">交換箇所</label>
+                        <input type="text" id="sprocketPosition" class="form-input" placeholder="例: 前後">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">丁数</label>
+                        <input type="text" id="sprocketTeeth" class="form-input" placeholder="例: F15/R43">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">スプロケット銘柄</label>
+                        <input type="text" id="sprocketBrand" class="form-input" placeholder="例: SUNSTAR">
+                    </div>
+                </div>
+
+                <div id="content-other" class="tab-content">
+                    <div class="form-group">
+                        <label class="form-label">整備項目</label>
+                        <input type="text" id="otherItem" class="form-input" placeholder="例: ブレーキパッド">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">詳細</label>
+                        <input type="text" id="otherDetails" class="form-input" placeholder="例: フロント、純正品">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">費用（円）</label>
+                    <input type="number" id="cost" class="form-input" placeholder="例: 3000">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">メモ</label>
+                    <textarea id="note" class="form-input form-textarea" placeholder="その他の作業内容や気づいたことなど"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">保存</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="modal" id="filterModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">フィルター</div>
+                <button class="close-btn" onclick="closeFilterModal()">完了</button>
+            </div>
+
+            <div class="filter-options">
+                <div class="filter-option active" data-filter="all">
+                    <div class="filter-option-icon">📋</div>
+                    <div class="filter-option-label">すべて</div>
+                </div>
+                <div class="filter-option" data-filter="oil">
+                    <div class="filter-option-icon">🛢️</div>
+                    <div class="filter-option-label">オイル</div>
+                </div>
+                <div class="filter-option" data-filter="tire">
+                    <div class="filter-option-icon">🛞</div>
+                    <div class="filter-option-label">タイヤ</div>
+                </div>
+                <div class="filter-option" data-filter="chain">
+                    <div class="filter-option-icon">⛓️</div>
+                    <div class="filter-option-label">チェーン</div>
+                </div>
+                <div class="filter-option" data-filter="sprocket">
+                    <div class="filter-option-icon">⚙️</div>
+                    <div class="filter-option-label">スプロケ</div>
+                </div>
+                <div class="filter-option" data-filter="other">
+                    <div class="filter-option-icon">🔧</div>
+                    <div class="filter-option-label">その他</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">設定</div>
+                <button class="close-btn" onclick="closeSettingsModal()">閉じる</button>
+            </div>
+
+            <div class="form-group">
+                <button class="submit-btn" onclick="exportData()" style="background: #2c2c2e;">データをエクスポート</button>
+            </div>
+
+            <div class="form-group">
+                <button class="submit-btn" onclick="document.getElementById('fileInput').click()" style="background: #2c2c2e;">データをインポート</button>
+                <input type="file" id="fileInput" accept=".json" onchange="importData(event)" style="display: none;">
+            </div>
+
+            <div style="margin-top: 24px; padding: 16px; background: #2c2c2e; border-radius: 12px; font-size: 13px; color: #8e8e93; line-height: 1.6;">
+                <div style="margin-bottom: 8px; font-weight: 600; color: #ffffff;">データ管理について</div>
+                <div>エクスポート: すべての記録をJSONファイルとしてダウンロード</div>
+                <div>インポート: バックアップから記録を復元（既存データは上書きされます）</div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <script>
-        (function() {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            const isStandalone = window.navigator.standalone === true;
-            const hasSeenPrompt = localStorage.getItem('iosInstallPromptSeen');
-            if (isIOS && !isStandalone && !hasSeenPrompt) {
-                setTimeout(() => {
-                    document.getElementById('iosInstallPrompt').style.display = 'block';
-                    localStorage.setItem('iosInstallPromptSeen', 'true');
-                }, 2000);
-            }
-        })();
-
         const STORAGE_KEY = 'maintenanceLogs';
         const INTERVALS = { oil: 3000, tire: 10000, chain: 15000, sprocket: 20000 };
-        let changeChart = null;
         let currentFilter = 'all';
+        let changeChart = null;
 
         document.getElementById('date').valueAsDate = new Date();
 
+        // Tab switching
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', function() {
                 const type = this.dataset.type;
@@ -695,13 +742,22 @@
             });
         });
 
-        document.querySelectorAll('.filter-pill').forEach(pill => {
-            pill.addEventListener('click', function() {
-                document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        // Filter options
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.filter-option').forEach(o => o.classList.remove('active'));
                 this.classList.add('active');
                 currentFilter = this.dataset.filter;
+                const labels = { all: 'すべて', oil: 'オイル', tire: 'タイヤ', chain: 'チェーン', sprocket: 'スプロケ', other: 'その他' };
+                document.getElementById('filterLabel').textContent = labels[currentFilter];
                 displayHistory();
+                closeFilterModal();
             });
+        });
+
+        // Search
+        document.getElementById('searchInput').addEventListener('input', function() {
+            displayHistory();
         });
 
         function loadLogs() {
@@ -713,9 +769,9 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
         }
 
-        function updateNextChange() {
+        function updateInfoCards() {
             const logs = loadLogs();
-            const grid = document.getElementById('nextChangeGrid');
+            const grid = document.getElementById('infoCardsGrid');
             const types = [
                 { key: 'oil', icon: '🛢️', label: 'オイル' },
                 { key: 'tire', icon: '🛞', label: 'タイヤ' },
@@ -726,28 +782,43 @@
             grid.innerHTML = types.map(type => {
                 const typeLogs = logs.filter(log => log.type === type.key);
                 if (typeLogs.length === 0) {
-                    return `<div class="card"><div class="card-icon">${type.icon}</div><div class="card-label">${type.label}</div><div class="card-value">— km</div><div class="card-info">未記録</div></div>`;
+                    return `
+                        <div class="info-card">
+                            <div class="info-icon">${type.icon}</div>
+                            <div class="info-label">${type.label}</div>
+                            <div class="info-value">— km</div>
+                            <div class="info-subvalue">未記録</div>
+                        </div>
+                    `;
                 }
                 const latest = typeLogs.reduce((latest, log) => new Date(log.date) > new Date(latest.date) ? log : latest);
                 const nextChange = latest.odometer + INTERVALS[type.key];
                 const daysSince = Math.floor((new Date() - new Date(latest.date)) / (1000 * 60 * 60 * 24));
-                return `<div class="card"><div class="card-icon">${type.icon}</div><div class="card-label">${type.label}</div><div class="card-value">${nextChange.toLocaleString()} km</div><div class="card-info">${daysSince}日前</div></div>`;
+                return `
+                    <div class="info-card">
+                        <div class="info-icon">${type.icon}</div>
+                        <div class="info-label">${type.label}</div>
+                        <div class="info-value">${nextChange.toLocaleString()} km</div>
+                        <div class="info-subvalue">${daysSince}日前</div>
+                    </div>
+                `;
             }).join('');
         }
 
         function renderChart() {
             const logs = loadLogs();
+            const ctx = document.getElementById('changeChart');
+            
             if (logs.length === 0) {
-                const ctx = document.getElementById('changeChart');
                 if (changeChart) { changeChart.destroy(); changeChart = null; }
                 ctx.style.display = 'none';
                 return;
             }
-            const ctx = document.getElementById('changeChart');
+
             ctx.style.display = 'block';
             const sortedLogs = [...logs].sort((a, b) => new Date(a.date) - new Date(b.date));
             const datasets = [
-                { type: 'oil', label: 'オイル', color: '#007AFF' },
+                { type: 'oil', label: 'オイル', color: '#5b7ae5' },
                 { type: 'tire', label: 'タイヤ', color: '#FF9500' },
                 { type: 'chain', label: 'チェーン', color: '#5AC8FA' },
                 { type: 'sprocket', label: 'スプロケ', color: '#AF52DE' }
@@ -755,6 +826,7 @@
                 const data = sortedLogs.map(log => log.type === item.type ? { x: new Date(log.date), y: log.odometer } : null).filter(d => d !== null);
                 return { label: item.label, data: data, borderColor: item.color, backgroundColor: item.color, pointRadius: 6, pointHoverRadius: 8, showLine: false };
             }).filter(dataset => dataset.data.length > 0);
+
             if (changeChart) changeChart.destroy();
             changeChart = new Chart(ctx, {
                 type: 'scatter',
@@ -763,7 +835,7 @@
                     responsive: true,
                     maintainAspectRatio: true,
                     plugins: {
-                        legend: { display: true, position: 'top' },
+                        legend: { display: true, position: 'top', labels: { color: '#ffffff' } },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -774,8 +846,21 @@
                         }
                     },
                     scales: {
-                        x: { type: 'time', time: { unit: 'month', displayFormats: { month: 'YYYY/MM' } }, title: { display: true, text: '日付' } },
-                        y: { title: { display: true, text: '走行距離 (km)' }, ticks: { callback: function(value) { return value.toLocaleString(); } } }
+                        x: { 
+                            type: 'time', 
+                            time: { unit: 'month', displayFormats: { month: 'YYYY/MM' } }, 
+                            title: { display: true, text: '日付', color: '#8e8e93' },
+                            ticks: { color: '#8e8e93' },
+                            grid: { color: '#3a3a3c' }
+                        },
+                        y: { 
+                            title: { display: true, text: '走行距離 (km)', color: '#8e8e93' }, 
+                            ticks: { 
+                                color: '#8e8e93',
+                                callback: function(value) { return value.toLocaleString(); } 
+                            },
+                            grid: { color: '#3a3a3c' }
+                        }
                     }
                 }
             });
@@ -784,17 +869,36 @@
         function displayHistory() {
             let logs = loadLogs();
             const historyList = document.getElementById('historyList');
-            if (currentFilter !== 'all') logs = logs.filter(log => log.type === currentFilter);
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (currentFilter !== 'all') {
+                logs = logs.filter(log => log.type === currentFilter);
+            }
+
+            if (searchTerm) {
+                logs = logs.filter(log => {
+                    const searchFields = [
+                        log.oilBrand, log.tireBrand, log.tirePosition, log.tireSize,
+                        log.chainBrand, log.chainSize, log.chainType,
+                        log.sprocketBrand, log.sprocketPosition, log.sprocketTeeth,
+                        log.otherItem, log.otherDetails, log.note
+                    ].filter(Boolean).join(' ').toLowerCase();
+                    return searchFields.includes(searchTerm);
+                });
+            }
+            
             if (logs.length === 0) {
-                historyList.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📝</div><div class="empty-state-text">記録がありません</div></div>';
+                historyList.innerHTML = '<div class="empty-state"><div class="empty-icon">📝</div><div>記録がありません</div></div>';
                 return;
             }
+
             logs.sort((a, b) => new Date(b.date) - new Date(a.date));
             const typeLabels = { oil: 'オイル', tire: 'タイヤ', chain: 'チェーン', sprocket: 'スプロケ', other: 'その他' };
+
             historyList.innerHTML = logs.map((log, index) => {
                 const details = [];
+                
                 if (log.type === 'oil') {
-                    if (log.oilType) details.push(log.oilType);
                     if (log.oilBrand) details.push(log.oilBrand);
                 } else if (log.type === 'tire') {
                     if (log.tirePosition) details.push(log.tirePosition);
@@ -812,14 +916,25 @@
                     if (log.otherItem) details.push(log.otherItem);
                     if (log.otherDetails) details.push(log.otherDetails);
                 }
+                
                 if (log.cost) details.push(`¥${log.cost.toLocaleString()}`);
-                return `<div class="history-item"><div class="history-header"><span class="history-badge">${typeLabels[log.type]}</span><span class="history-date">${formatDate(log.date)}</span></div><div class="history-distance">${log.odometer.toLocaleString()} km</div>${details.length > 0 ? `<div class="history-details">${details.join(' • ')}</div>` : ''}${log.note ? `<div class="history-note">${log.note}</div>` : ''}<button class="delete-btn" onclick="deleteLog(${index})">削除</button></div>`;
-            }).join('');
-        }
 
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+                const date = new Date(log.date);
+                const dateStr = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+
+                return `
+                    <div class="history-card">
+                        <div class="history-card-header">
+                            <span class="history-badge">${typeLabels[log.type]}</span>
+                            <span class="history-date">${dateStr}</span>
+                        </div>
+                        <div class="history-distance">${log.odometer.toLocaleString()} km</div>
+                        ${details.length > 0 ? `<div class="history-details">${details.join(' • ')}</div>` : ''}
+                        ${log.note ? `<div class="history-note">${log.note}</div>` : ''}
+                        <button class="delete-btn" onclick="deleteLog(${index})">削除</button>
+                    </div>
+                `;
+            }).join('');
         }
 
         document.getElementById('maintenanceForm').addEventListener('submit', function(e) {
@@ -832,8 +947,8 @@
                 cost: document.getElementById('cost').value ? parseInt(document.getElementById('cost').value) : null,
                 note: document.getElementById('note').value
             };
+
             if (type === 'oil') {
-                newLog.oilType = document.getElementById('oilType').value;
                 newLog.oilBrand = document.getElementById('oilBrand').value;
             } else if (type === 'tire') {
                 newLog.tirePosition = document.getElementById('tirePosition').value;
@@ -851,37 +966,43 @@
                 newLog.otherItem = document.getElementById('otherItem').value;
                 newLog.otherDetails = document.getElementById('otherDetails').value;
             }
+
             const logs = loadLogs();
             logs.push(newLog);
             saveLogs(logs);
+
             this.reset();
             document.getElementById('date').valueAsDate = new Date();
+            
             displayHistory();
-            updateNextChange();
+            updateInfoCards();
             renderChart();
-            const btn = this.querySelector('.btn-primary');
-            const originalText = btn.textContent;
-            btn.textContent = '✓ 保存しました';
-            setTimeout(() => { btn.textContent = originalText; }, 2000);
+            closeNewRecordModal();
         });
 
         function deleteLog(index) {
             if (!confirm('この記録を削除しますか？')) return;
             let logs = loadLogs();
+            
             if (currentFilter !== 'all') {
                 const filteredLogs = logs.filter(log => log.type === currentFilter);
                 const logToDelete = filteredLogs.sort((a, b) => new Date(b.date) - new Date(a.date))[index];
-                const originalIndex = logs.findIndex(log => log.date === logToDelete.date && log.odometer === logToDelete.odometer && log.type === logToDelete.type);
+                const originalIndex = logs.findIndex(log => 
+                    log.date === logToDelete.date && log.odometer === logToDelete.odometer && log.type === logToDelete.type
+                );
                 logs.splice(originalIndex, 1);
             } else {
                 const sortedLogs = [...logs].sort((a, b) => new Date(b.date) - new Date(a.date));
                 const logToDelete = sortedLogs[index];
-                const originalIndex = logs.findIndex(log => log.date === logToDelete.date && log.odometer === logToDelete.odometer && log.type === logToDelete.type);
+                const originalIndex = logs.findIndex(log => 
+                    log.date === logToDelete.date && log.odometer === logToDelete.odometer && log.type === logToDelete.type
+                );
                 logs.splice(originalIndex, 1);
             }
+            
             saveLogs(logs);
             displayHistory();
-            updateNextChange();
+            updateInfoCards();
             renderChart();
         }
 
@@ -913,23 +1034,59 @@
                     if (!Array.isArray(importedData)) throw new Error('無効なデータ形式です');
                     const isValid = importedData.every(log => log.type && log.date && log.odometer !== undefined);
                     if (!isValid) throw new Error('データに必須フィールドが不足しています');
-                    if (!confirm(`${importedData.length}件の記録をインポートします。\n既存のデータは上書きされますがよろしいですか？`)) { event.target.value = ''; return; }
+                    if (!confirm(`${importedData.length}件の記録をインポートします。\n既存のデータは上書きされますがよろしいですか？`)) { 
+                        event.target.value = ''; return; 
+                    }
                     saveLogs(importedData);
                     displayHistory();
-                    updateNextChange();
+                    updateInfoCards();
                     renderChart();
-                    alert('✓ インポートが完了しました');
+                    alert('✓ インポート完了');
                 } catch (error) {
                     alert('エラー: ' + error.message);
                 }
                 event.target.value = '';
             };
-            reader.onerror = function() { alert('ファイルの読み込みに失敗しました'); event.target.value = ''; };
             reader.readAsText(file);
         }
 
+        // Modal functions
+        function openNewRecordModal() {
+            document.getElementById('newRecordModal').classList.add('active');
+        }
+
+        function closeNewRecordModal() {
+            document.getElementById('newRecordModal').classList.remove('active');
+        }
+
+        function openFilterModal() {
+            document.getElementById('filterModal').classList.add('active');
+        }
+
+        function closeFilterModal() {
+            document.getElementById('filterModal').classList.remove('active');
+        }
+
+        function openSettingsModal() {
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.remove('active');
+        }
+
+        // Close modal on background click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+
+        // Initial display
         displayHistory();
-        updateNextChange();
+        updateInfoCards();
         renderChart();
     </script>
 </body>
