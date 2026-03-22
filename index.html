@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>メンテナンス</title>
+    <title>Maintenance</title>
     
     <!-- iOS PWA対応 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,7 +11,6 @@
     <meta name="apple-mobile-web-app-title" content="メンテナンス">
     <meta name="theme-color" content="#000000">
     
-    <!-- アイコン設定 -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23007AFF' width='100' height='100' rx='20'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='white'>🏍️</text></svg>">
     
@@ -23,7 +22,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", sans-serif;
             background: #000000;
             color: #ffffff;
             min-height: 100vh;
@@ -32,79 +31,172 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Header */
-        .header {
-            padding: 20px 16px 24px 16px;
-            text-align: center;
+        .screen {
+            display: none;
         }
 
-        .header-title {
-            font-size: 28px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+        .screen.active {
+            display: block;
         }
 
-        /* Container */
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 0 16px;
+            padding: 0 20px 100px 20px;
         }
 
-        /* Info Cards Grid */
-        .info-cards-grid {
+        .header {
+            padding: 16px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: #007AFF;
+            font-size: 28px;
+            cursor: pointer;
+            margin-left: -8px;
+        }
+
+        .header-title {
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 41px;
+            letter-spacing: 0.374px;
+            flex: 1;
+        }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: #2c2c2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .main-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 16px;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .main-card {
+            background: #1c1c1e;
+            border-radius: 20px;
+            padding: 24px 20px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .main-card:active {
+            transform: scale(0.97);
+        }
+
+        .main-card-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .main-card-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .main-card-value {
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: auto;
+        }
+
+        .main-card-label {
+            font-size: 13px;
+            color: #8e8e93;
+        }
+
+        .new-record-btn-main {
+            background: #007AFF;
+            border: none;
+            border-radius: 16px;
+            padding: 16px;
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            min-height: 56px;
         }
 
         .info-card {
             background: #1c1c1e;
             border-radius: 16px;
             padding: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
         .info-icon {
+            width: 56px;
+            height: 56px;
+            background: #2c2c2e;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 28px;
-            margin-bottom: 8px;
+        }
+
+        .info-content {
+            flex: 1;
         }
 
         .info-label {
-            font-size: 13px;
+            font-size: 14px;
             color: #8e8e93;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .info-value {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 600;
-            letter-spacing: 0.3px;
         }
 
-        .info-subvalue {
-            font-size: 11px;
-            color: #8e8e93;
-            margin-top: 2px;
-        }
-
-        /* Search & Actions */
         .actions-section {
             background: #1c1c1e;
             border-radius: 16px;
             padding: 16px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .search-box {
             background: #2c2c2e;
             border: 1px solid #3a3a3c;
             border-radius: 10px;
-            padding: 12px 16px;
+            padding: 11px 16px;
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .search-icon {
@@ -117,12 +209,8 @@
             background: transparent;
             border: none;
             color: #ffffff;
-            font-size: 16px;
+            font-size: 17px;
             outline: none;
-        }
-
-        .search-input::placeholder {
-            color: #8e8e93;
         }
 
         .action-buttons {
@@ -135,171 +223,113 @@
             background: #2c2c2e;
             border: 1px solid #3a3a3c;
             border-radius: 10px;
-            padding: 12px;
+            padding: 11px 16px;
             color: #ffffff;
-            font-size: 15px;
+            font-size: 17px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .filter-btn:active {
-            opacity: 0.7;
         }
 
         .new-record-btn {
             flex: 1.2;
-            background: #5b7ae5;
+            background: #007AFF;
             border: none;
             border-radius: 10px;
-            padding: 12px 16px;
+            padding: 11px 16px;
             color: #ffffff;
-            font-size: 15px;
+            font-size: 17px;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        .new-record-btn:active {
-            opacity: 0.8;
-        }
-
-        /* Chart Section */
-        .chart-section {
-            background: #1c1c1e;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
-        #changeChart {
-            max-height: 280px;
-        }
-
-        /* History Section */
-        .history-header {
-            font-size: 18px;
+        .section-header {
+            font-size: 20px;
             font-weight: 600;
             margin-bottom: 12px;
-            padding: 0 4px;
         }
 
         .history-card {
             background: #1c1c1e;
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 13px;
+            padding: 16px;
             margin-bottom: 12px;
         }
 
         .history-card-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .history-badge {
-            display: inline-flex;
-            padding: 4px 10px;
-            background: #2c2c2e;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
+            margin-bottom: 8px;
         }
 
         .history-date {
-            font-size: 13px;
-            color: #8e8e93;
+            font-size: 18px;
+            font-weight: 600;
         }
 
-        .history-distance {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 6px;
+        .history-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #8e8e93;
+            font-size: 20px;
+            cursor: pointer;
         }
 
         .history-details {
             font-size: 15px;
             color: #8e8e93;
-            line-height: 22px;
-            margin-bottom: 6px;
+            line-height: 20px;
         }
 
-        .history-note {
-            font-size: 15px;
-            color: #8e8e93;
-            font-style: italic;
-        }
-
-        .delete-btn {
-            background: none;
-            border: none;
-            color: #ff453a;
-            cursor: pointer;
-            font-size: 15px;
-            padding: 4px 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .delete-btn:active {
-            opacity: 0.5;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
+        .tab-bar-fixed {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: #1c1c1e;
+            background: rgba(28, 28, 30, 0.95);
+            backdrop-filter: blur(20px);
             border-top: 0.5px solid #3a3a3c;
-            padding-bottom: env(safe-area-inset-bottom);
+            padding: 4px 0;
+            padding-bottom: max(4px, env(safe-area-inset-bottom));
             display: flex;
+            z-index: 100;
         }
 
-        .nav-item {
+        .tab-item {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 8px 0 12px 0;
-            gap: 4px;
+            padding: 4px 0;
+            gap: 2px;
             background: none;
             border: none;
             color: #8e8e93;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        .nav-item.active {
-            color: #5b7ae5;
+        .tab-item.active {
+            color: #007AFF;
         }
 
-        .nav-item:active {
-            opacity: 0.5;
+        .tab-icon-text {
+            font-size: 25px;
         }
 
-        .nav-icon {
-            font-size: 24px;
+        .tab-label {
+            font-size: 10px;
         }
 
-        .nav-label {
-            font-size: 11px;
-        }
-
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -307,7 +337,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.4);
             z-index: 1000;
             align-items: flex-end;
         }
@@ -318,12 +348,12 @@
 
         .modal-content {
             background: #1c1c1e;
-            border-radius: 16px 16px 0 0;
+            border-radius: 13px 13px 0 0;
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
-            padding: 24px 16px;
-            padding-bottom: calc(24px + env(safe-area-inset-bottom));
+            padding: 20px;
+            padding-bottom: calc(20px + env(safe-area-inset-bottom));
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -331,8 +361,7 @@
         .modal-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .modal-title {
@@ -343,20 +372,18 @@
         .close-btn {
             background: none;
             border: none;
-            color: #5b7ae5;
-            font-size: 16px;
+            color: #007AFF;
+            font-size: 17px;
             cursor: pointer;
-            padding: 4px 8px;
         }
 
-        /* Form */
         .form-group {
             margin-bottom: 16px;
         }
 
         .form-label {
             display: block;
-            font-size: 14px;
+            font-size: 13px;
             color: #8e8e93;
             margin-bottom: 8px;
         }
@@ -366,70 +393,53 @@
             background: #2c2c2e;
             border: 1px solid #3a3a3c;
             border-radius: 10px;
-            padding: 14px 16px;
+            padding: 11px 16px;
             color: #ffffff;
-            font-size: 16px;
-            -webkit-appearance: none;
+            font-size: 17px;
         }
 
         .form-input:focus {
             outline: none;
-            border-color: #5b7ae5;
-        }
-
-        .form-input::placeholder {
-            color: #8e8e93;
+            border-color: #007AFF;
         }
 
         .form-textarea {
-            min-height: 100px;
+            min-height: 88px;
             resize: vertical;
         }
 
         .submit-btn {
             width: 100%;
-            background: #5b7ae5;
+            background: #007AFF;
             border: none;
             border-radius: 10px;
-            padding: 16px;
+            padding: 11px 16px;
             color: #ffffff;
             font-size: 17px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 8px;
         }
 
-        .submit-btn:active {
-            opacity: 0.8;
-        }
-
-        /* Tabs */
         .tab-bar {
             display: flex;
             gap: 8px;
             margin-bottom: 20px;
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .tab-bar::-webkit-scrollbar {
-            display: none;
         }
 
         .tab {
             background: #2c2c2e;
             border: none;
             border-radius: 20px;
-            padding: 8px 16px;
+            padding: 6px 16px;
             color: #8e8e93;
-            font-size: 14px;
+            font-size: 15px;
             white-space: nowrap;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .tab.active {
-            background: #5b7ae5;
+            background: #007AFF;
             color: #ffffff;
             font-weight: 600;
         }
@@ -442,112 +452,122 @@
             display: block;
         }
 
-        /* Filter Modal */
-        .filter-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .filter-option {
-            background: #2c2c2e;
-            border: 2px solid #3a3a3c;
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .filter-option.active {
-            border-color: #5b7ae5;
-            background: #2c3447;
-        }
-
-        .filter-option-icon {
-            font-size: 32px;
-            margin-bottom: 8px;
-        }
-
-        .filter-option-label {
-            font-size: 14px;
-            color: #ffffff;
-        }
-
-        /* Empty State */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
             color: #8e8e93;
         }
-
-        .empty-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-            opacity: 0.3;
-        }
-
-        .spacer {
-            height: 80px;
-        }
-
-        @media (max-width: 600px) {
-            .info-cards-grid {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="header-title">メンテナンス</div>
+    <!-- Main Screen -->
+    <div class="screen active" id="mainScreen">
+        <div class="container">
+            <div class="header">
+                <div class="header-title">Maintenance</div>
+            </div>
+
+            <div class="main-grid">
+                <div class="main-card" onclick="showDetail('oil')">
+                    <div class="main-card-icon">🛢️</div>
+                    <div class="main-card-title">Engine oil</div>
+                    <div class="main-card-value" id="oilValue">— km</div>
+                    <div class="main-card-label">未記録</div>
+                </div>
+
+                <div class="main-card" onclick="showDetail('tire')">
+                    <div class="main-card-icon">🛞</div>
+                    <div class="main-card-title">Tire</div>
+                    <div class="main-card-value" id="tireValue">— km</div>
+                    <div class="main-card-label">未記録</div>
+                </div>
+
+                <div class="main-card" onclick="showDetail('chain')">
+                    <div class="main-card-icon">⛓️</div>
+                    <div class="main-card-title">Chain</div>
+                    <div class="main-card-value" id="chainValue">— km</div>
+                    <div class="main-card-label">未記録</div>
+                </div>
+
+                <div class="main-card" onclick="showDetail('sprocket')">
+                    <div class="main-card-icon">⚙️</div>
+                    <div class="main-card-title">Sprocket</div>
+                    <div class="main-card-value" id="sprocketValue">— km</div>
+                    <div class="main-card-label">未記録</div>
+                </div>
+            </div>
+
+            <button class="new-record-btn-main" onclick="openNewRecordModal()">
+                <span>+</span>
+                <span>新規記録</span>
+            </button>
+        </div>
     </div>
 
-    <div class="container">
-        <!-- Info Cards -->
-        <div class="info-cards-grid" id="infoCardsGrid"></div>
-
-        <!-- Search & Actions -->
-        <div class="actions-section">
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" placeholder="検索" id="searchInput">
+    <!-- Detail Screen -->
+    <div class="screen" id="detailScreen">
+        <div class="container">
+            <div class="header">
+                <button class="back-btn" onclick="showMain()">‹</button>
+                <div class="header-title" id="detailTitle">Engine oil</div>
+                <div class="header-icon" id="detailIcon">🛢️</div>
             </div>
-            <div class="action-buttons">
-                <button class="filter-btn" onclick="openFilterModal()">
-                    <span id="filterLabel">すべて</span>
-                    <span>▼</span>
-                </button>
-                <button class="new-record-btn" onclick="openNewRecordModal()">
-                    <span>+</span>
-                    <span>新規記録</span>
-                </button>
+
+            <div class="info-card">
+                <div class="info-icon">🔄</div>
+                <div class="info-content">
+                    <div class="info-label">次回交換まで</div>
+                    <div class="info-value" id="detailNextChange">5,000 km</div>
+                </div>
             </div>
+
+            <div class="info-card">
+                <div class="info-icon">✏️</div>
+                <div class="info-content">
+                    <div class="info-label">総走行距離</div>
+                    <div class="info-value" id="detailTotalDistance">3,000 km</div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">📅</div>
+                <div class="info-content">
+                    <div class="info-label">前回交換日</div>
+                    <div class="info-value" id="detailLastDate">2025/08/11</div>
+                </div>
+            </div>
+
+            <div class="actions-section">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="検索" id="detailSearch">
+                </div>
+                <div class="action-buttons">
+                    <button class="filter-btn">
+                        <span>全ての期間</span>
+                        <span>▼</span>
+                    </button>
+                    <button class="new-record-btn" onclick="openNewRecordModal()">
+                        <span>+</span>
+                        <span>新規記録</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="section-header" id="detailHistoryTitle">オイル交換履歴</div>
+            <div id="detailHistoryList"></div>
         </div>
-
-        <!-- Chart -->
-        <div class="chart-section">
-            <div class="section-title">グラフ</div>
-            <canvas id="changeChart"></canvas>
-        </div>
-
-        <!-- History -->
-        <div class="history-header">整備履歴</div>
-        <div id="historyList"></div>
-
-        <div class="spacer"></div>
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <button class="nav-item active">
-            <span class="nav-icon">🏠</span>
-            <span class="nav-label">Home</span>
+    <!-- Tab Bar -->
+    <div class="tab-bar-fixed">
+        <button class="tab-item active" onclick="showMain()">
+            <span class="tab-icon-text">🏠</span>
+            <span class="tab-label">Home</span>
         </button>
-        <button class="nav-item" onclick="openSettingsModal()">
-            <span class="nav-icon">⚙️</span>
-            <span class="nav-label">Setting</span>
+        <button class="tab-item" onclick="openSettingsModal()">
+            <span class="tab-icon-text">⚙️</span>
+            <span class="tab-label">Setting</span>
         </button>
     </div>
 
@@ -569,12 +589,10 @@
 
             <form id="maintenanceForm">
                 <input type="hidden" id="maintenanceType" value="oil">
-
                 <div class="form-group">
                     <label class="form-label">日付</label>
                     <input type="date" id="date" class="form-input" required>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">走行距離（km）</label>
                     <input type="number" id="odometer" class="form-input" placeholder="例: 3000" required>
@@ -583,115 +601,76 @@
                 <div id="content-oil" class="tab-content active">
                     <div class="form-group">
                         <label class="form-label">オイル銘柄</label>
-                        <input type="text" id="oilBrand" class="form-input" placeholder="例: Castrol POWER1">
+                        <input type="text" id="oilBrand" class="form-input" placeholder="例: 10W40 1L">
                     </div>
                 </div>
 
                 <div id="content-tire" class="tab-content">
                     <div class="form-group">
                         <label class="form-label">交換箇所</label>
-                        <input type="text" id="tirePosition" class="form-input" placeholder="例: フロント">
+                        <input type="text" id="tirePosition" class="form-input">
                     </div>
                     <div class="form-group">
                         <label class="form-label">タイヤ銘柄</label>
-                        <input type="text" id="tireBrand" class="form-input" placeholder="例: BATTLAX">
+                        <input type="text" id="tireBrand" class="form-input">
                     </div>
                     <div class="form-group">
                         <label class="form-label">タイヤサイズ</label>
-                        <input type="text" id="tireSize" class="form-input" placeholder="例: 120/70-17">
+                        <input type="text" id="tireSize" class="form-input">
                     </div>
                 </div>
 
                 <div id="content-chain" class="tab-content">
                     <div class="form-group">
                         <label class="form-label">チェーン銘柄</label>
-                        <input type="text" id="chainBrand" class="form-input" placeholder="例: DID">
+                        <input type="text" id="chainBrand" class="form-input">
                     </div>
                     <div class="form-group">
                         <label class="form-label">チェーンサイズ</label>
-                        <input type="text" id="chainSize" class="form-input" placeholder="例: 525-120L">
+                        <input type="text" id="chainSize" class="form-input">
                     </div>
                     <div class="form-group">
                         <label class="form-label">チェーンタイプ</label>
-                        <input type="text" id="chainType" class="form-input" placeholder="例: Xリング">
+                        <input type="text" id="chainType" class="form-input">
                     </div>
                 </div>
 
                 <div id="content-sprocket" class="tab-content">
                     <div class="form-group">
                         <label class="form-label">交換箇所</label>
-                        <input type="text" id="sprocketPosition" class="form-input" placeholder="例: 前後">
+                        <input type="text" id="sprocketPosition" class="form-input">
                     </div>
                     <div class="form-group">
                         <label class="form-label">丁数</label>
-                        <input type="text" id="sprocketTeeth" class="form-input" placeholder="例: F15/R43">
+                        <input type="text" id="sprocketTeeth" class="form-input">
                     </div>
                     <div class="form-group">
                         <label class="form-label">スプロケット銘柄</label>
-                        <input type="text" id="sprocketBrand" class="form-input" placeholder="例: SUNSTAR">
+                        <input type="text" id="sprocketBrand" class="form-input">
                     </div>
                 </div>
 
                 <div id="content-other" class="tab-content">
                     <div class="form-group">
                         <label class="form-label">整備項目</label>
-                        <input type="text" id="otherItem" class="form-input" placeholder="例: ブレーキパッド">
+                        <input type="text" id="otherItem" class="form-input">
                     </div>
                     <div class="form-group">
                         <label class="form-label">詳細</label>
-                        <input type="text" id="otherDetails" class="form-input" placeholder="例: フロント、純正品">
+                        <input type="text" id="otherDetails" class="form-input">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">費用（円）</label>
-                    <input type="number" id="cost" class="form-input" placeholder="例: 3000">
+                    <input type="number" id="cost" class="form-input">
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">メモ</label>
-                    <textarea id="note" class="form-input form-textarea" placeholder="その他の作業内容や気づいたことなど"></textarea>
+                    <textarea id="note" class="form-input form-textarea"></textarea>
                 </div>
-
                 <button type="submit" class="submit-btn">保存</button>
             </form>
-        </div>
-    </div>
-
-    <!-- Filter Modal -->
-    <div class="modal" id="filterModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">フィルター</div>
-                <button class="close-btn" onclick="closeFilterModal()">完了</button>
-            </div>
-
-            <div class="filter-options">
-                <div class="filter-option active" data-filter="all">
-                    <div class="filter-option-icon">📋</div>
-                    <div class="filter-option-label">すべて</div>
-                </div>
-                <div class="filter-option" data-filter="oil">
-                    <div class="filter-option-icon">🛢️</div>
-                    <div class="filter-option-label">オイル</div>
-                </div>
-                <div class="filter-option" data-filter="tire">
-                    <div class="filter-option-icon">🛞</div>
-                    <div class="filter-option-label">タイヤ</div>
-                </div>
-                <div class="filter-option" data-filter="chain">
-                    <div class="filter-option-icon">⛓️</div>
-                    <div class="filter-option-label">チェーン</div>
-                </div>
-                <div class="filter-option" data-filter="sprocket">
-                    <div class="filter-option-icon">⚙️</div>
-                    <div class="filter-option-label">スプロケ</div>
-                </div>
-                <div class="filter-option" data-filter="other">
-                    <div class="filter-option-icon">🔧</div>
-                    <div class="filter-option-label">その他</div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -702,34 +681,47 @@
                 <div class="modal-title">設定</div>
                 <button class="close-btn" onclick="closeSettingsModal()">閉じる</button>
             </div>
-
             <div class="form-group">
-                <button class="submit-btn" onclick="exportData()" style="background: #2c2c2e;">データをエクスポート</button>
+                <button class="submit-btn" onclick="exportData()" style="background: #2c2c2e;">エクスポート</button>
             </div>
-
             <div class="form-group">
-                <button class="submit-btn" onclick="document.getElementById('fileInput').click()" style="background: #2c2c2e;">データをインポート</button>
+                <button class="submit-btn" onclick="document.getElementById('fileInput').click()" style="background: #2c2c2e;">インポート</button>
                 <input type="file" id="fileInput" accept=".json" onchange="importData(event)" style="display: none;">
-            </div>
-
-            <div style="margin-top: 24px; padding: 16px; background: #2c2c2e; border-radius: 12px; font-size: 13px; color: #8e8e93; line-height: 1.6;">
-                <div style="margin-bottom: 8px; font-weight: 600; color: #ffffff;">データ管理について</div>
-                <div>エクスポート: すべての記録をJSONファイルとしてダウンロード</div>
-                <div>インポート: バックアップから記録を復元（既存データは上書きされます）</div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <script>
         const STORAGE_KEY = 'maintenanceLogs';
         const INTERVALS = { oil: 3000, tire: 10000, chain: 15000, sprocket: 20000 };
-        let currentFilter = 'all';
-        let changeChart = null;
+        let currentType = 'oil';
 
         document.getElementById('date').valueAsDate = new Date();
 
-        // Tab switching
+        function showMain() {
+            document.getElementById('mainScreen').classList.add('active');
+            document.getElementById('detailScreen').classList.remove('active');
+            document.querySelectorAll('.tab-item')[0].classList.add('active');
+            document.querySelectorAll('.tab-item')[1].classList.remove('active');
+        }
+
+        function showDetail(type) {
+            currentType = type;
+            const titles = { oil: 'Engine oil', tire: 'Tire', chain: 'Chain', sprocket: 'Sprocket' };
+            const icons = { oil: '🛢️', tire: '🛞', chain: '⛓️', sprocket: '⚙️' };
+            const historyTitles = { oil: 'オイル交換履歴', tire: 'タイヤ交換履歴', chain: 'チェーン交換履歴', sprocket: 'スプロケット交換履歴' };
+            
+            document.getElementById('detailTitle').textContent = titles[type];
+            document.getElementById('detailIcon').textContent = icons[type];
+            document.getElementById('detailHistoryTitle').textContent = historyTitles[type];
+            
+            updateDetailInfo();
+            displayDetailHistory();
+            
+            document.getElementById('mainScreen').classList.remove('active');
+            document.getElementById('detailScreen').classList.add('active');
+        }
+
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', function() {
                 const type = this.dataset.type;
@@ -742,24 +734,6 @@
             });
         });
 
-        // Filter options
-        document.querySelectorAll('.filter-option').forEach(option => {
-            option.addEventListener('click', function() {
-                document.querySelectorAll('.filter-option').forEach(o => o.classList.remove('active'));
-                this.classList.add('active');
-                currentFilter = this.dataset.filter;
-                const labels = { all: 'すべて', oil: 'オイル', tire: 'タイヤ', chain: 'チェーン', sprocket: 'スプロケ', other: 'その他' };
-                document.getElementById('filterLabel').textContent = labels[currentFilter];
-                displayHistory();
-                closeFilterModal();
-            });
-        });
-
-        // Search
-        document.getElementById('searchInput').addEventListener('input', function() {
-            displayHistory();
-        });
-
         function loadLogs() {
             const data = localStorage.getItem(STORAGE_KEY);
             return data ? JSON.parse(data) : [];
@@ -769,155 +743,74 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
         }
 
-        function updateInfoCards() {
+        function updateMainCards() {
             const logs = loadLogs();
-            const grid = document.getElementById('infoCardsGrid');
-            const types = [
-                { key: 'oil', icon: '🛢️', label: 'オイル' },
-                { key: 'tire', icon: '🛞', label: 'タイヤ' },
-                { key: 'chain', icon: '⛓️', label: 'チェーン' },
-                { key: 'sprocket', icon: '⚙️', label: 'スプロケ' }
-            ];
-
-            grid.innerHTML = types.map(type => {
-                const typeLogs = logs.filter(log => log.type === type.key);
+            ['oil', 'tire', 'chain', 'sprocket'].forEach(type => {
+                const typeLogs = logs.filter(log => log.type === type);
+                const valueEl = document.getElementById(`${type}Value`);
+                
                 if (typeLogs.length === 0) {
-                    return `
-                        <div class="info-card">
-                            <div class="info-icon">${type.icon}</div>
-                            <div class="info-label">${type.label}</div>
-                            <div class="info-value">— km</div>
-                            <div class="info-subvalue">未記録</div>
-                        </div>
-                    `;
-                }
-                const latest = typeLogs.reduce((latest, log) => new Date(log.date) > new Date(latest.date) ? log : latest);
-                const nextChange = latest.odometer + INTERVALS[type.key];
-                const daysSince = Math.floor((new Date() - new Date(latest.date)) / (1000 * 60 * 60 * 24));
-                return `
-                    <div class="info-card">
-                        <div class="info-icon">${type.icon}</div>
-                        <div class="info-label">${type.label}</div>
-                        <div class="info-value">${nextChange.toLocaleString()} km</div>
-                        <div class="info-subvalue">${daysSince}日前</div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function renderChart() {
-            const logs = loadLogs();
-            const ctx = document.getElementById('changeChart');
-            
-            if (logs.length === 0) {
-                if (changeChart) { changeChart.destroy(); changeChart = null; }
-                ctx.style.display = 'none';
-                return;
-            }
-
-            ctx.style.display = 'block';
-            const sortedLogs = [...logs].sort((a, b) => new Date(a.date) - new Date(b.date));
-            const datasets = [
-                { type: 'oil', label: 'オイル', color: '#5b7ae5' },
-                { type: 'tire', label: 'タイヤ', color: '#FF9500' },
-                { type: 'chain', label: 'チェーン', color: '#5AC8FA' },
-                { type: 'sprocket', label: 'スプロケ', color: '#AF52DE' }
-            ].map(item => {
-                const data = sortedLogs.map(log => log.type === item.type ? { x: new Date(log.date), y: log.odometer } : null).filter(d => d !== null);
-                return { label: item.label, data: data, borderColor: item.color, backgroundColor: item.color, pointRadius: 6, pointHoverRadius: 8, showLine: false };
-            }).filter(dataset => dataset.data.length > 0);
-
-            if (changeChart) changeChart.destroy();
-            changeChart = new Chart(ctx, {
-                type: 'scatter',
-                data: { datasets: datasets },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: { display: true, position: 'top', labels: { color: '#ffffff' } },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const date = new Date(context.parsed.x);
-                                    return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} km (${date.getMonth() + 1}/${date.getDate()})`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: { 
-                            type: 'time', 
-                            time: { unit: 'month', displayFormats: { month: 'YYYY/MM' } }, 
-                            title: { display: true, text: '日付', color: '#8e8e93' },
-                            ticks: { color: '#8e8e93' },
-                            grid: { color: '#3a3a3c' }
-                        },
-                        y: { 
-                            title: { display: true, text: '走行距離 (km)', color: '#8e8e93' }, 
-                            ticks: { 
-                                color: '#8e8e93',
-                                callback: function(value) { return value.toLocaleString(); } 
-                            },
-                            grid: { color: '#3a3a3c' }
-                        }
-                    }
+                    valueEl.textContent = '— km';
+                } else {
+                    const latest = typeLogs.reduce((latest, log) => 
+                        new Date(log.date) > new Date(latest.date) ? log : latest
+                    );
+                    const nextChange = latest.odometer + INTERVALS[type];
+                    valueEl.textContent = `${nextChange.toLocaleString()} km`;
                 }
             });
         }
 
-        function displayHistory() {
-            let logs = loadLogs();
-            const historyList = document.getElementById('historyList');
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        function updateDetailInfo() {
+            const logs = loadLogs();
+            const typeLogs = logs.filter(log => log.type === currentType);
             
-            if (currentFilter !== 'all') {
-                logs = logs.filter(log => log.type === currentFilter);
+            if (typeLogs.length === 0) {
+                document.getElementById('detailNextChange').textContent = '—';
+                document.getElementById('detailTotalDistance').textContent = '—';
+                document.getElementById('detailLastDate').textContent = '—';
+            } else {
+                const latest = typeLogs.reduce((latest, log) => 
+                    new Date(log.date) > new Date(latest.date) ? log : latest
+                );
+                const nextChange = latest.odometer + INTERVALS[currentType];
+                document.getElementById('detailNextChange').textContent = `${nextChange.toLocaleString()} km`;
+                document.getElementById('detailTotalDistance').textContent = `${latest.odometer.toLocaleString()} km`;
+                
+                const date = new Date(latest.date);
+                document.getElementById('detailLastDate').textContent = 
+                    `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
             }
+        }
 
-            if (searchTerm) {
-                logs = logs.filter(log => {
-                    const searchFields = [
-                        log.oilBrand, log.tireBrand, log.tirePosition, log.tireSize,
-                        log.chainBrand, log.chainSize, log.chainType,
-                        log.sprocketBrand, log.sprocketPosition, log.sprocketTeeth,
-                        log.otherItem, log.otherDetails, log.note
-                    ].filter(Boolean).join(' ').toLowerCase();
-                    return searchFields.includes(searchTerm);
-                });
-            }
+        function displayDetailHistory() {
+            const logs = loadLogs();
+            const typeLogs = logs.filter(log => log.type === currentType);
+            const historyList = document.getElementById('detailHistoryList');
             
-            if (logs.length === 0) {
-                historyList.innerHTML = '<div class="empty-state"><div class="empty-icon">📝</div><div>記録がありません</div></div>';
+            if (typeLogs.length === 0) {
+                historyList.innerHTML = '<div class="empty-state">記録がありません</div>';
                 return;
             }
 
-            logs.sort((a, b) => new Date(b.date) - new Date(a.date));
-            const typeLabels = { oil: 'オイル', tire: 'タイヤ', chain: 'チェーン', sprocket: 'スプロケ', other: 'その他' };
+            typeLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            historyList.innerHTML = logs.map((log, index) => {
+            historyList.innerHTML = typeLogs.map((log, index) => {
                 const details = [];
+                details.push(`${log.odometer.toLocaleString()}km`);
                 
-                if (log.type === 'oil') {
-                    if (log.oilBrand) details.push(log.oilBrand);
-                } else if (log.type === 'tire') {
-                    if (log.tirePosition) details.push(log.tirePosition);
+                if (log.type === 'oil' && log.oilBrand) details.push(log.oilBrand);
+                if (log.type === 'tire') {
                     if (log.tireBrand) details.push(log.tireBrand);
                     if (log.tireSize) details.push(log.tireSize);
-                } else if (log.type === 'chain') {
-                    if (log.chainType) details.push(log.chainType);
+                }
+                if (log.type === 'chain') {
                     if (log.chainBrand) details.push(log.chainBrand);
                     if (log.chainSize) details.push(log.chainSize);
-                } else if (log.type === 'sprocket') {
-                    if (log.sprocketPosition) details.push(log.sprocketPosition);
-                    if (log.sprocketTeeth) details.push(log.sprocketTeeth);
-                    if (log.sprocketBrand) details.push(log.sprocketBrand);
-                } else if (log.type === 'other') {
-                    if (log.otherItem) details.push(log.otherItem);
-                    if (log.otherDetails) details.push(log.otherDetails);
                 }
-                
-                if (log.cost) details.push(`¥${log.cost.toLocaleString()}`);
+                if (log.type === 'sprocket' && log.sprocketTeeth) details.push(log.sprocketTeeth);
+                if (log.cost) details.push(`費用：¥${log.cost.toLocaleString()}`);
+                if (log.note) details.push(log.note);
 
                 const date = new Date(log.date);
                 const dateStr = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
@@ -925,13 +818,15 @@
                 return `
                     <div class="history-card">
                         <div class="history-card-header">
-                            <span class="history-badge">${typeLabels[log.type]}</span>
-                            <span class="history-date">${dateStr}</span>
+                            <div class="history-date">${dateStr}</div>
+                            <div class="history-actions">
+                                <button class="icon-btn">✏️</button>
+                                <button class="icon-btn" onclick="deleteLog(${index})">🗑️</button>
+                            </div>
                         </div>
-                        <div class="history-distance">${log.odometer.toLocaleString()} km</div>
-                        ${details.length > 0 ? `<div class="history-details">${details.join(' • ')}</div>` : ''}
-                        ${log.note ? `<div class="history-note">${log.note}</div>` : ''}
-                        <button class="delete-btn" onclick="deleteLog(${index})">削除</button>
+                        <div class="history-details">
+                            ${details.map(d => `<div>${d}</div>`).join('')}
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -948,9 +843,8 @@
                 note: document.getElementById('note').value
             };
 
-            if (type === 'oil') {
-                newLog.oilBrand = document.getElementById('oilBrand').value;
-            } else if (type === 'tire') {
+            if (type === 'oil') newLog.oilBrand = document.getElementById('oilBrand').value;
+            else if (type === 'tire') {
                 newLog.tirePosition = document.getElementById('tirePosition').value;
                 newLog.tireBrand = document.getElementById('tireBrand').value;
                 newLog.tireSize = document.getElementById('tireSize').value;
@@ -970,40 +864,28 @@
             const logs = loadLogs();
             logs.push(newLog);
             saveLogs(logs);
-
             this.reset();
             document.getElementById('date').valueAsDate = new Date();
             
-            displayHistory();
-            updateInfoCards();
-            renderChart();
+            updateMainCards();
+            updateDetailInfo();
+            displayDetailHistory();
             closeNewRecordModal();
         });
 
         function deleteLog(index) {
             if (!confirm('この記録を削除しますか？')) return;
             let logs = loadLogs();
-            
-            if (currentFilter !== 'all') {
-                const filteredLogs = logs.filter(log => log.type === currentFilter);
-                const logToDelete = filteredLogs.sort((a, b) => new Date(b.date) - new Date(a.date))[index];
-                const originalIndex = logs.findIndex(log => 
-                    log.date === logToDelete.date && log.odometer === logToDelete.odometer && log.type === logToDelete.type
-                );
-                logs.splice(originalIndex, 1);
-            } else {
-                const sortedLogs = [...logs].sort((a, b) => new Date(b.date) - new Date(a.date));
-                const logToDelete = sortedLogs[index];
-                const originalIndex = logs.findIndex(log => 
-                    log.date === logToDelete.date && log.odometer === logToDelete.odometer && log.type === logToDelete.type
-                );
-                logs.splice(originalIndex, 1);
-            }
-            
+            const typeLogs = logs.filter(log => log.type === currentType);
+            const logToDelete = typeLogs.sort((a, b) => new Date(b.date) - new Date(a.date))[index];
+            const originalIndex = logs.findIndex(log => 
+                log.date === logToDelete.date && log.odometer === logToDelete.odometer && log.type === logToDelete.type
+            );
+            logs.splice(originalIndex, 1);
             saveLogs(logs);
-            displayHistory();
-            updateInfoCards();
-            renderChart();
+            updateMainCards();
+            updateDetailInfo();
+            displayDetailHistory();
         }
 
         function exportData() {
@@ -1015,8 +897,7 @@
             const link = document.createElement('a');
             link.href = url;
             const today = new Date();
-            const dateStr = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
-            link.download = `bike-maintenance-${dateStr}.json`;
+            link.download = `bike-maintenance-${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}.json`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -1031,16 +912,14 @@
             reader.onload = function(e) {
                 try {
                     const importedData = JSON.parse(e.target.result);
-                    if (!Array.isArray(importedData)) throw new Error('無効なデータ形式です');
-                    const isValid = importedData.every(log => log.type && log.date && log.odometer !== undefined);
-                    if (!isValid) throw new Error('データに必須フィールドが不足しています');
-                    if (!confirm(`${importedData.length}件の記録をインポートします。\n既存のデータは上書きされますがよろしいですか？`)) { 
+                    if (!Array.isArray(importedData)) throw new Error('無効なデータ');
+                    if (!confirm(`${importedData.length}件をインポートします。上書きされますがよろしいですか？`)) { 
                         event.target.value = ''; return; 
                     }
                     saveLogs(importedData);
-                    displayHistory();
-                    updateInfoCards();
-                    renderChart();
+                    updateMainCards();
+                    updateDetailInfo();
+                    displayDetailHistory();
                     alert('✓ インポート完了');
                 } catch (error) {
                     alert('エラー: ' + error.message);
@@ -1050,44 +929,18 @@
             reader.readAsText(file);
         }
 
-        // Modal functions
-        function openNewRecordModal() {
-            document.getElementById('newRecordModal').classList.add('active');
-        }
+        function openNewRecordModal() { document.getElementById('newRecordModal').classList.add('active'); }
+        function closeNewRecordModal() { document.getElementById('newRecordModal').classList.remove('active'); }
+        function openSettingsModal() { document.getElementById('settingsModal').classList.add('active'); }
+        function closeSettingsModal() { document.getElementById('settingsModal').classList.remove('active'); }
 
-        function closeNewRecordModal() {
-            document.getElementById('newRecordModal').classList.remove('active');
-        }
-
-        function openFilterModal() {
-            document.getElementById('filterModal').classList.add('active');
-        }
-
-        function closeFilterModal() {
-            document.getElementById('filterModal').classList.remove('active');
-        }
-
-        function openSettingsModal() {
-            document.getElementById('settingsModal').classList.add('active');
-        }
-
-        function closeSettingsModal() {
-            document.getElementById('settingsModal').classList.remove('active');
-        }
-
-        // Close modal on background click
         document.querySelectorAll('.modal').forEach(modal => {
             modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                }
+                if (e.target === this) this.classList.remove('active');
             });
         });
 
-        // Initial display
-        displayHistory();
-        updateInfoCards();
-        renderChart();
+        updateMainCards();
     </script>
 </body>
 </html>
