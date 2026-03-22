@@ -60,7 +60,7 @@
             justify-content: center;
             background: none;
             border: none;
-            color: #007AFF;
+            color: #ffffff;
             font-size: 28px;
             cursor: pointer;
             margin-left: -8px;
@@ -485,15 +485,15 @@
                 <div class="main-card" onclick="showDetail('chain')">
                     <div class="main-card-icon">⛓️</div>
                     <div class="main-card-title">Chain</div>
-                    <div class="main-card-value" id="chainValue">— km</div>
-                    <div class="main-card-label">未記録</div>
+                    <div class="main-card-value" id="chainValue">—</div>
+                    <div class="main-card-label">前回交換日</div>
                 </div>
 
                 <div class="main-card" onclick="showDetail('sprocket')">
                     <div class="main-card-icon">⚙️</div>
                     <div class="main-card-title">Sprocket</div>
-                    <div class="main-card-value" id="sprocketValue">— km</div>
-                    <div class="main-card-label">未記録</div>
+                    <div class="main-card-value" id="sprocketValue">—</div>
+                    <div class="main-card-label">前回交換日</div>
                 </div>
             </div>
 
@@ -693,7 +693,7 @@
 
     <script>
         const STORAGE_KEY = 'maintenanceLogs';
-        const INTERVALS = { oil: 3000, tire: 10000, chain: 15000, sprocket: 20000 };
+        const INTERVALS = { oil: 3000, tire: 4500, chain: 0, sprocket: 0 };
         let currentType = 'oil';
 
         document.getElementById('date').valueAsDate = new Date();
@@ -750,13 +750,26 @@
                 const valueEl = document.getElementById(`${type}Value`);
                 
                 if (typeLogs.length === 0) {
-                    valueEl.textContent = '— km';
+                    if (type === 'chain' || type === 'sprocket') {
+                        valueEl.textContent = '—';
+                    } else {
+                        valueEl.textContent = '— km';
+                    }
                 } else {
                     const latest = typeLogs.reduce((latest, log) => 
                         new Date(log.date) > new Date(latest.date) ? log : latest
                     );
-                    const nextChange = latest.odometer + INTERVALS[type];
-                    valueEl.textContent = `${nextChange.toLocaleString()} km`;
+                    
+                    if (type === 'chain' || type === 'sprocket') {
+                        // Show last maintenance date
+                        const date = new Date(latest.date);
+                        const dateStr = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+                        valueEl.textContent = dateStr;
+                    } else {
+                        // Show next km for oil and tire
+                        const nextChange = latest.odometer + INTERVALS[type];
+                        valueEl.textContent = `${nextChange.toLocaleString()} km`;
+                    }
                 }
             });
         }
