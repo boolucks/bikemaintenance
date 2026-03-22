@@ -122,6 +122,11 @@
             font-size: 28px;
             font-weight: 600;
             margin-top: auto;
+            word-break: break-all;
+        }
+        
+        .main-card-value.date-value {
+            font-size: 20px;
         }
 
         .main-card-label {
@@ -752,8 +757,10 @@
                 if (typeLogs.length === 0) {
                     if (type === 'chain' || type === 'sprocket') {
                         valueEl.textContent = '—';
+                        valueEl.classList.add('date-value');
                     } else {
                         valueEl.textContent = '— km';
+                        valueEl.classList.remove('date-value');
                     }
                 } else {
                     const latest = typeLogs.reduce((latest, log) => 
@@ -765,10 +772,12 @@
                         const date = new Date(latest.date);
                         const dateStr = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
                         valueEl.textContent = dateStr;
+                        valueEl.classList.add('date-value');
                     } else {
                         // Show next km for oil and tire
                         const nextChange = latest.odometer + INTERVALS[type];
                         valueEl.textContent = `${nextChange.toLocaleString()} km`;
+                        valueEl.classList.remove('date-value');
                     }
                 }
             });
@@ -833,7 +842,6 @@
                         <div class="history-card-header">
                             <div class="history-date">${dateStr}</div>
                             <div class="history-actions">
-                                <button class="icon-btn">✏️</button>
                                 <button class="icon-btn" onclick="deleteLog(${index})">🗑️</button>
                             </div>
                         </div>
